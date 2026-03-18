@@ -449,8 +449,7 @@ with tab1:
 
     # Banner explicativo sobre la métrica
     st.info(
-        f" **Los valores se expresan en pesos de {ANIO_HOY}** (poder adquisitivo actual), " f"deflactados por {_inflacion_ef:.1%} de inflación anual durante {t.annos_para_retiro} años. " f"En pesos nominales del año {t.anno_retiro}: pensión ${pension_final:,.0f}/mes · saldo ${saldo_final:,.0f}.",
-        icon=None,
+        f" **Los valores se expresan en pesos de {ANIO_HOY}** (poder adquisitivo actual), ",
     )
 
     c1, c2, c3, c4 = st.columns(4)
