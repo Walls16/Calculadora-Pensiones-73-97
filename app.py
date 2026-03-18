@@ -890,8 +890,7 @@ with tab4:
                     "Aportacion extra": f"${ri['aportacion_extra_pesos']:,.0f}/mes",
                     "% del SBC":  f"{ri['pct_sbc']:.1%}",
                 })
-        import pandas as _pd_sens
-        st.dataframe(_pd_sens.DataFrame(filas_sens), hide_index=True, use_container_width=True)
+        st.dataframe(pd.DataFrame(filas_sens), hide_index=True, use_container_width=True)
 
         st.caption(
             " Las aportaciones voluntarias al AFORE pueden deducirse de impuestos " "(hasta el 10% del ingreso anual o 5 UMAs anuales). " "Consulta con tu AFORE para abrir una subcuenta voluntaria." )
@@ -930,23 +929,23 @@ with tab5:
     s_bas_real = esc_bas["saldo_final"] / _factor_deflac
     s_opt_real = esc_opt["saldo_final"] / _factor_deflac
 
-    st.caption(f"Valores en pesos de {ANIO_HOY} (deflactados por {_inflacion_ef:.1%}/año)")
+    st.caption(f"Valores en pesos de {ANIO_HOY}")
 
     c_e1, c_e2, c_e3 = st.columns(3)
     with c_e1:
-        st.markdown("** Pesimista**")
+        st.markdown("**Pesimista**")
         st.metric("Saldo", f"${s_pes_real:,.0f}")
         st.metric("Pensión", f"${p_pes_real:,.0f}/mes")
         st.caption("Rendimiento mínimo + crecimiento salarial bajo")
 
     with c_e2:
-        st.markdown("** Base**")
+        st.markdown("**Base**")
         st.metric("Saldo", f"${s_bas_real:,.0f}")
         st.metric("Pensión", f"${p_bas_real:,.0f}/mes")
         st.caption("Rendimiento promedio + crecimiento histórico")
 
     with c_e3:
-        st.markdown("** Optimista**")
+        st.markdown("**Optimista**")
         st.metric("Saldo", f"${s_opt_real:,.0f}")
         st.metric("Pensión", f"${p_opt_real:,.0f}/mes")
         st.caption("Rendimiento máximo + crecimiento salarial alto")
