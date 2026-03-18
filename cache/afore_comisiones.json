@@ -1,0 +1,90 @@
+{
+  "2020": {
+    "PensionISSSTE": 0.0079,
+    "Citibanamex": 0.0088,
+    "XXI Banorte": 0.0088,
+    "Profuturo GNP": 0.0092,
+    "SURA": 0.0092,
+    "Coppel": 0.0098,
+    "Principal": 0.0097,
+    "Azteca": 0.0098,
+    "Inbursa": 0.0092,
+    "Invercap": 0.0098
+  },
+  "2021": {
+    "PensionISSSTE": 0.0053,
+    "Citibanamex": 0.008,
+    "XXI Banorte": 0.008,
+    "Profuturo GNP": 0.0083,
+    "SURA": 0.0083,
+    "Coppel": 0.0085,
+    "Principal": 0.0085,
+    "Azteca": 0.0086,
+    "Inbursa": 0.0086,
+    "Invercap": 0.0087
+  },
+  "2022": {
+    "PensionISSSTE": 0.0053,
+    "Citibanamex": 0.0057,
+    "XXI Banorte": 0.008,
+    "Profuturo GNP": 0.0057,
+    "SURA": 0.0057,
+    "Coppel": 0.0057,
+    "Principal": 0.0057,
+    "Azteca": 0.0057,
+    "Inbursa": 0.0057,
+    "Invercap": 0.0057
+  },
+  "2023": {
+    "PensionISSSTE": 0.0053,
+    "Citibanamex": 0.0057,
+    "XXI Banorte": 0.0057,
+    "Profuturo GNP": 0.0057,
+    "SURA": 0.0057,
+    "Coppel": 0.0057,
+    "Principal": 0.0057,
+    "Azteca": 0.0057,
+    "Inbursa": 0.0057,
+    "Invercap": 0.0057
+  },
+  "2024": {
+    "PensionISSSTE": 0.0053,
+    "Citibanamex": 0.0057,
+    "XXI Banorte": 0.0057,
+    "Profuturo GNP": 0.0057,
+    "SURA": 0.0057,
+    "Coppel": 0.0057,
+    "Principal": 0.0057,
+    "Azteca": 0.0057,
+    "Inbursa": 0.0057,
+    "Invercap": 0.0057
+  },
+  "2025": {
+    "PensionISSSTE": 0.0052,
+    "Citibanamex": 0.0055,
+    "XXI Banorte": 0.0055,
+    "Profuturo GNP": 0.0055,
+    "SURA": 0.0055,
+    "Coppel": 0.0055,
+    "Principal": 0.0055,
+    "Azteca": 0.0055,
+    "Inbursa": 0.0055,
+    "Invercap": 0.0055
+  },
+  "2026": {
+    "PensionISSSTE": 0.0052,
+    "Citibanamex": 0.0054,
+    "XXI Banorte": 0.0054,
+    "Profuturo GNP": 0.0054,
+    "SURA": 0.0054,
+    "Coppel": 0.0054,
+    "Principal": 0.0054,
+    "Azteca": 0.0054,
+    "Inbursa": 0.0054,
+    "Invercap": 0.0054
+  },
+  "_meta": {
+    "fecha_actualizacion": "2026-01-01",
+    "fuente": "seed inicial hardcoded"
+  }
+}

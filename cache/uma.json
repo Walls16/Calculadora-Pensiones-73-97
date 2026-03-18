@@ -1,0 +1,61 @@
+{
+  "2016": {
+    "diario": 73.04,
+    "mensual": 2220.42,
+    "anual": 26645.04
+  },
+  "2017": {
+    "diario": 75.49,
+    "mensual": 2294.9,
+    "anual": 27538.8
+  },
+  "2018": {
+    "diario": 80.6,
+    "mensual": 2450.24,
+    "anual": 29402.88
+  },
+  "2019": {
+    "diario": 84.49,
+    "mensual": 2568.5,
+    "anual": 30822.0
+  },
+  "2020": {
+    "diario": 86.88,
+    "mensual": 2641.15,
+    "anual": 31693.8
+  },
+  "2021": {
+    "diario": 89.62,
+    "mensual": 2724.45,
+    "anual": 32693.4
+  },
+  "2022": {
+    "diario": 96.22,
+    "mensual": 2925.09,
+    "anual": 35101.08
+  },
+  "2023": {
+    "diario": 103.74,
+    "mensual": 3153.7,
+    "anual": 37844.4
+  },
+  "2024": {
+    "diario": 108.57,
+    "mensual": 3300.53,
+    "anual": 39606.36
+  },
+  "2025": {
+    "diario": 113.14,
+    "mensual": 3439.46,
+    "anual": 41273.52
+  },
+  "2026": {
+    "diario": 117.31,
+    "mensual": 3566.22,
+    "anual": 42794.64
+  },
+  "_meta": {
+    "fecha_actualizacion": "2026-01-01",
+    "fuente": "seed inicial hardcoded"
+  }
+}
