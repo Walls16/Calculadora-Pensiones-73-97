@@ -696,7 +696,7 @@ with tab4:
     pension_cus = res_pension_excel["pension_mensual_pesos"]
     udi_hoy_val = res_pension_excel["udi_hoy"]
 
-    st.markdown("###  Método Actuarial CUS — igual al Excel fuente")
+    st.markdown("###  Método Actuarial CUS")
     st.caption(
         "Fórmula bimestral en UDIs con parámetros CONSAR/CUS. ")
     c_cus1, c_cus2, c_cus3 = st.columns(3)
