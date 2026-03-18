@@ -133,79 +133,28 @@ if not st.session_state.app_iniciada:
     </style>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <div style="display:flex;flex-direction:column;align-items:center;
-                justify-content:center;min-height:80vh;padding:40px 20px;
-                text-align:center;font-family:sans-serif;">
-
-      <p style="font-size:2.6rem;font-weight:800;color:#1B4F72;
-                line-height:1.2;margin:0 0 10px 0;">
-        Calculadora de Retiro LSS-1997
-      </p>
-
-      <p style="font-size:1rem;color:#999;line-height:1.6;
-                max-width:560px;margin:0 0 48px 0;">
-        Herramienta actuarial basada en la metodolog&iacute;a CUS de la CNSF
-        y la normativa del IMSS &mdash; R&eacute;gimen de Cuentas Individuales
-      </p>
-
-      <p style="font-size:0.7rem;text-transform:uppercase;letter-spacing:2.5px;
-                color:#666;margin:0 0 20px 0;">
-        Desarrollada por
-      </p>
-
-      <div style="display:flex;flex-wrap:wrap;justify-content:center;
-                  gap:12px 40px;margin-bottom:44px;">
-
-        <a href="https://www.linkedin.com/in/owen-conde/" target="_blank"
-           style="display:flex;flex-direction:column;align-items:center;
-                  gap:3px;text-decoration:none;">
-          <span style="font-size:0.95rem;font-weight:600;color:#ddd;">
-            Owen Paredes Conde
-          </span>
-          <span style="font-size:0.75rem;color:#0A66C2;">
-            linkedin.com/in/owen-conde
-          </span>
-        </a>
-
-        <a href="https://www.linkedin.com/in/heri-espino/" target="_blank"
-           style="display:flex;flex-direction:column;align-items:center;
-                  gap:3px;text-decoration:none;">
-          <span style="font-size:0.95rem;font-weight:600;color:#ddd;">
-            Heriberto Espino Montelongo
-          </span>
-          <span style="font-size:0.75rem;color:#0A66C2;">
-            linkedin.com/in/heri-espino
-          </span>
-        </a>
-
-        <a href="https://www.linkedin.com/in/pedropgg/" target="_blank"
-           style="display:flex;flex-direction:column;align-items:center;
-                  gap:3px;text-decoration:none;">
-          <span style="font-size:0.95rem;font-weight:600;color:#ddd;">
-            Pedro Jos&eacute; Garc&iacute;a Guevara
-          </span>
-          <span style="font-size:0.75rem;color:#0A66C2;">
-            linkedin.com/in/pedropgg
-          </span>
-        </a>
-
-      </div>
-
-      <hr style="width:320px;border:none;border-top:1px solid #2c2c2c;margin:0 auto 28px auto;">
-
-      <p style="font-size:0.88rem;color:#888;line-height:1.9;margin:0 0 48px 0;">
-        Dirigida y supervisada por<br>
-        <a href="https://www.linkedin.com/in/dr-francisco-garc%C3%ADa-castillo/"
-           target="_blank"
-           style="color:#5DADE2;font-weight:600;text-decoration:none;">
-          Dr. Francisco Garc&iacute;a Castillo
-        </a>
-        &nbsp;&middot;&nbsp; UDLAP
-      </p>
-
+    st.markdown("""<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;padding:40px 20px;text-align:center;font-family:sans-serif;">
+    <p style="font-size:2.6rem;font-weight:800;color:#1B4F72;line-height:1.2;margin:0 0 10px 0;">Calculadora de Retiro LSS-1997</p>
+    <p style="font-size:1rem;color:#999;line-height:1.6;max-width:560px;margin:0 0 48px 0;">Herramienta actuarial basada en la metodolog&iacute;a CUS de la CNSF y la normativa del IMSS &mdash; R&eacute;gimen de Cuentas Individuales</p>
+    <p style="font-size:0.7rem;text-transform:uppercase;letter-spacing:2.5px;color:#666;margin:0 0 20px 0;">Desarrollada por</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px 40px;margin-bottom:44px;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+    <a href="https://www.linkedin.com/in/owen-conde/" style="font-size:0.95rem;font-weight:600;color:#ddd;text-decoration:none;">Owen Paredes Conde</a>
+    <span style="font-size:0.75rem;color:#0A66C2;">linkedin.com/in/owen-conde</span>
     </div>
-    """, unsafe_allow_html=True)
+    <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+    <a href="https://www.linkedin.com/in/heri-espino/" style="font-size:0.95rem;font-weight:600;color:#ddd;text-decoration:none;">Heriberto Espino Montelongo</a>
+    <span style="font-size:0.75rem;color:#0A66C2;">linkedin.com/in/heri-espino</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+    <a href="https://www.linkedin.com/in/pedropgg/" style="font-size:0.95rem;font-weight:600;color:#ddd;text-decoration:none;">Pedro Jos&eacute; Garc&iacute;a Guevara</a>
+    <span style="font-size:0.75rem;color:#0A66C2;">linkedin.com/in/pedropgg</span>
+    </div>
+    </div>
+    <hr style="width:320px;border:none;border-top:1px solid #2c2c2c;margin:0 auto 28px auto;">
+    <p style="font-size:0.88rem;color:#888;line-height:1.9;margin:0 0 48px 0;">Dirigida y supervisada por<br>
+    <a href="https://www.linkedin.com/in/dr-francisco-garcia-castillo/" style="color:#5DADE2;font-weight:600;text-decoration:none;">Dr. Francisco Garc&iacute;a Castillo</a> &nbsp;&middot;&nbsp; UDLAP</p>
+    </div>""", unsafe_allow_html=True)
 
     col_btn = st.columns([1, 1, 1])[1]
     with col_btn:
@@ -234,7 +183,7 @@ with st.sidebar:
     st.divider()
     st.subheader(" Datos Personales")
 
-    nombre = st.text_input("Nombre", value="Owen García")
+    nombre = st.text_input("Nombre", value="Paquito García")
 
     col_fn, col_gen = st.columns(2)
     with col_fn:
