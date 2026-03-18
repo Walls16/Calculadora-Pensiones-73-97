@@ -449,7 +449,7 @@ with tab1:
 
     # Banner explicativo sobre la métrica
     st.info(
-        f" **Los valores se expresan en pesos de {ANIO_HOY}** (poder adquisitivo actual), ",
+        f" **Los valores se expresan en pesos de {ANIO_HOY}** (poder adquisitivo actual)",
     )
 
     c1, c2, c3, c4 = st.columns(4)
@@ -698,7 +698,7 @@ with tab4:
 
     st.markdown("###  Método Actuarial CUS — igual al Excel fuente")
     st.caption(
-        "Fórmula bimestral en UDIs con parámetros CONSAR/CUS. " "Coincide con el Excel del Dr. García Castillo (UDLAP) al ~1%." )
+        "Fórmula bimestral en UDIs con parámetros CONSAR/CUS. ")
     c_cus1, c_cus2, c_cus3 = st.columns(3)
     with c_cus1:
         label_estado = "casado/a" if res_pension_excel["casado"] else "soltero/a"
