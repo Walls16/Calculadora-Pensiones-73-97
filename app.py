@@ -425,7 +425,7 @@ elif fuente == "PMG":
     )
 else:
     st.success(
-        f" Cumple requisitos para pensión completa por saldo AFORE. " f"Tasa de reemplazo proyectada: **{tasa_reemplazo:.1%}**",
+        f" Cumple requisitos para pensión completa por saldo AFORE. ",
         icon=None,
     )
 
