@@ -12,11 +12,7 @@ El scraper CNSF es un placeholder para actualizaciones futuras voluntarias.
 
 import json
 import logging
-import os
-from typing import Optional
 
-import sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import CACHE_TABLAS_VIDA, EDAD_MAXIMA
 
 log = logging.getLogger(__name__)

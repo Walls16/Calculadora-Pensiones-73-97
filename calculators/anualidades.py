@@ -14,9 +14,6 @@ mientras el beneficiario esté vivo, descontado a la tasa técnica i.
 äx(12) representa pagos mensuales (m=12).
 """
 
-import sys, os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from config import TASA_INTERES_TECNICO, EDAD_MAXIMA, PAGOS_POR_ANIO
 from data_fetchers.tablas_vida import get_lx, get_qx
 

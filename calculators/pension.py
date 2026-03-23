@@ -16,14 +16,9 @@ Esquemas:
 La pensión final es: max(RCV, PMG) si aplica PMG; de lo contrario solo RCV.
 """
 
-import sys, os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from datetime import date
 from typing import Optional
 
 from config import (
-    SEMANAS_MINIMAS_RCV,
     SEMANAS_4TO_TRANSITORIO,
     SEMANAS_4TO_TRANSITORIO_FINAL,
     PMG_BASE_2025,

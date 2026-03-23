@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 data_fetchers/afore_rendimientos.py
 Descarga los rendimientos históricos de las SIEFOREs desde CONSAR.
@@ -15,16 +17,18 @@ Estructura del cache (afore_rendimientos.csv):
 
 import io
 import logging
-import os
-from datetime import date, datetime
+from datetime import date
 from typing import Optional
 
-import pandas as pd
 import requests
 
-import sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import CACHE_AFORE_REND, URL_CONSAR_RENDIMIENTOS, AFORES
+import project_time
+
+try:
+    import pandas as pd
+except ImportError:  # pragma: no cover - exercised in minimal environments
+    pd = None
 
 log = logging.getLogger(__name__)
 
@@ -69,6 +73,11 @@ def _descargar_excel_consar() -> pd.DataFrame:
     """
     Descarga el Excel de rendimientos CONSAR y lo retorna como DataFrame limpio.
     """
+    if pd is None:
+        raise RuntimeError(
+            "Se requiere 'pandas' para actualizar rendimientos desde CONSAR."
+        )
+
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -186,6 +195,8 @@ def _parsear_excel_consar(df_raw: pd.DataFrame) -> list[dict]:
 # ─────────────────────────────────────────────────────────────────────────────
 
 def _leer_cache() -> Optional[pd.DataFrame]:
+    if pd is None:
+        return None
     if not CACHE_AFORE_REND.exists():
         return None
     try:
@@ -198,6 +209,9 @@ def _leer_cache() -> Optional[pd.DataFrame]:
 
 
 def _guardar_cache(registros: list[dict]) -> None:
+    if pd is None:
+        log.warning("No se guardÃ³ cache de rendimientos porque pandas no estÃ¡ instalado.")
+        return
     try:
         df = pd.DataFrame(registros)
         df.to_csv(CACHE_AFORE_REND, index=False)
@@ -209,7 +223,7 @@ def _guardar_cache(registros: list[dict]) -> None:
 def _cache_vigente(max_dias: int = 35) -> bool:
     if not CACHE_AFORE_REND.exists():
         return False
-    dias = (date.today() - date.fromtimestamp(CACHE_AFORE_REND.stat().st_mtime)).days
+    dias = (project_time.today() - date.fromtimestamp(CACHE_AFORE_REND.stat().st_mtime)).days
     return dias <= max_dias
 
 
@@ -224,6 +238,11 @@ def fetch_rendimientos(forzar_actualizacion: bool = False) -> pd.DataFrame:
     Returns:
         DataFrame con columnas: siefore, afore, fecha, rendimiento
     """
+    if pd is None:
+        raise RuntimeError(
+            "Se requiere 'pandas' para cargar el histÃ³rico completo de rendimientos."
+        )
+
     if not forzar_actualizacion and _cache_vigente():
         df = _leer_cache()
         if df is not None:
@@ -260,6 +279,17 @@ def get_rendimiento_afore(
     Returns:
         Tasa de rendimiento anual como float (ej: 0.0555 = 5.55%)
     """
+    if pd is None:
+        log.debug(
+            "pandas no estÃ¡ instalado. Usando fallback de rendimiento para %s/%s.",
+            afore,
+            siefore,
+        )
+        return _FALLBACK_POR_AFORE.get(
+            afore,
+            _FALLBACK_RENDIMIENTOS.get(siefore, {}).get("promedio", 0.055),
+        )
+
     df = fetch_rendimientos()
 
     subset = df[(df["siefore"] == siefore) & (df["afore"] == afore)]
@@ -285,6 +315,9 @@ def get_rendimiento_afore(
 
 def get_rendimiento_promedio_siefore(siefore: str) -> float:
     """Retorna el rendimiento promedio ponderado del mercado para una SIEFORE."""
+    if pd is None:
+        return _FALLBACK_RENDIMIENTOS.get(siefore, {}).get("promedio", 0.055)
+
     df = fetch_rendimientos()
     subset = df[
         (df["siefore"] == siefore) &
@@ -297,8 +330,11 @@ def get_rendimiento_promedio_siefore(siefore: str) -> float:
 
 def _fallback_dataframe() -> pd.DataFrame:
     """Genera un DataFrame mínimo con los valores de fallback."""
+    if pd is None:
+        raise RuntimeError("Se requiere 'pandas' para construir el DataFrame de fallback.")
+
     registros = []
-    fecha_ref = date.today().isoformat()
+    fecha_ref = project_time.today().isoformat()
     for siefore, stats in _FALLBACK_RENDIMIENTOS.items():
         registros.append({
             "siefore": siefore,
@@ -319,6 +355,9 @@ def _fallback_dataframe() -> pd.DataFrame:
 def seed_cache_desde_fallback() -> None:
     """Inicializa el cache si está vacío."""
     if CACHE_AFORE_REND.exists():
+        return
+    if pd is None:
+        log.warning("No se inicializó cache de rendimientos porque pandas no está instalado.")
         return
     df = _fallback_dataframe()
     df.to_csv(CACHE_AFORE_REND, index=False)

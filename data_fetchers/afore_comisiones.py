@@ -19,15 +19,13 @@ import json
 import logging
 import os
 import re
-from datetime import date, datetime
+from datetime import date
 from typing import Optional
 
 import requests
-from bs4 import BeautifulSoup
 
-import sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import CACHE_AFORE_COM, URL_CONSAR_COMISIONES, AFORES
+import project_time
 
 log = logging.getLogger(__name__)
 
@@ -116,6 +114,13 @@ def _scrape_consar() -> dict[str, dict[str, float]]:
     Returns:
         dict {anio_str: {afore: comision}}
     """
+    try:
+        from bs4 import BeautifulSoup
+    except ImportError as exc:
+        raise RuntimeError(
+            "Se requiere 'beautifulsoup4' para actualizar comisiones desde CONSAR."
+        ) from exc
+
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -214,7 +219,7 @@ def _cache_vigente(max_dias: int = 60) -> bool:
         fecha_str = (datos or {}).get("_meta", {}).get("fecha_actualizacion", "")
         if not fecha_str:
             return False
-        return (date.today() - date.fromisoformat(fecha_str)).days <= max_dias
+        return (project_time.today() - date.fromisoformat(fecha_str)).days <= max_dias
     except Exception:
         return False
 
@@ -239,7 +244,7 @@ def fetch_comisiones(forzar_actualizacion: bool = False) -> dict[str, dict[str, 
     try:
         datos = _scrape_consar()
         datos["_meta"] = {
-            "fecha_actualizacion": date.today().isoformat(),
+            "fecha_actualizacion": project_time.today().isoformat(),
             "fuente": "CONSAR scraping",
         }
         _guardar_cache(datos)
@@ -265,7 +270,7 @@ def get_comision_afore(afore: str, anio: Optional[int] = None) -> float:
         Comisión como fracción (ej: 0.0054)
     """
     if anio is None:
-        anio = date.today().year
+        anio = project_time.current_year()
 
     datos = fetch_comisiones()
     anio_str = str(anio)
@@ -300,7 +305,7 @@ def get_comision_afore(afore: str, anio: Optional[int] = None) -> float:
 def get_comision_promedio(anio: Optional[int] = None) -> float:
     """Retorna la comisión promedio del mercado para un año."""
     if anio is None:
-        anio = date.today().year
+        anio = project_time.current_year()
     datos = fetch_comisiones()
     anio_str = str(anio)
     if anio_str not in datos:

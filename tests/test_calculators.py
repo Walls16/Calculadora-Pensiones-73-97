@@ -7,17 +7,33 @@ Todos los valores de referencia (_REF_*) fueron extraídos directamente
 del Excel con pandas. Se tolera ±0.01% de diferencia por redondeo float.
 
 Correr con:
-    python -m pytest tests/ -v
+    python -m pytest
     # o
     python tests/test_calculators.py
 """
 
 import sys
-import os
 import unittest
 from datetime import date
+from pathlib import Path
+from unittest.mock import patch
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+_PATCHER = None
+
+
+def setUpModule():
+    global _PATCHER
+    _PATCHER = patch("project_time.today", return_value=date(2026, 1, 15))
+    _PATCHER.start()
+
+
+def tearDownModule():
+    if _PATCHER is not None:
+        _PATCHER.stop()
 
 # ─────────────────────────────────────────────────────────────────────────────
 # TOLERANCIAS

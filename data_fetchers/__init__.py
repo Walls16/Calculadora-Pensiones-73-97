@@ -1,4 +1,8 @@
-from .uma import fetch_uma
-from .udi import fetch_udi
+"""
+Data fetcher package.
 
-__all__ = ["fetch_uma", "fetch_udi"]
+Import submodules directly, for example:
+    from data_fetchers.uma import fetch_uma
+"""
+
+__all__: list[str] = []

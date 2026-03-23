@@ -11,7 +11,11 @@ Herramienta actuarial para proyectar la pensión bajo el régimen de la Ley del 
 cd calculadora_retiro/
 
 # 2. Instalar dependencias
-pip install streamlit plotly pandas requests beautifulsoup4 lxml openpyxl
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
+
+# Si Streamlit falla por protobuf en un entorno existente
+pip install "protobuf>=3.20,<4.0" --force-reinstall
 
 # 3. Inicializar caché local (solo la primera vez)
 python seed_cache.py
@@ -91,10 +95,14 @@ calculadora_retiro/
 ## Tests
 
 ```bash
-python -m pytest tests/ -v
-# o
+python -m pytest
+# fallback directo
 python tests/test_calculators.py
 ```
+
+La ruta canonica para contributors y CI es `python -m pytest`.
+
+La suite cubre calculadoras, flujos offline/fallback, determinismo de fechas e integridad de tablas regulatorias.
 
 66 tests en 8 grupos: UMA, Tablas de vida, Aportaciones, Densidad, Trabajador, Pensión, Proyección Saldo, Pipeline completo.
 
@@ -106,6 +114,8 @@ python tests/test_calculators.py
 # Token Banxico para la API de UDI (sin token usa fallback anual)
 export BANXICO_TOKEN="tu_token_aqui"
 ```
+
+Si `streamlit run app.py` falla con `Descriptors cannot be created directly`, normalmente hay una versión incompatible de `protobuf` instalada en el entorno. Este proyecto espera `protobuf>=3.20,<4.0`.
 
 Regístrate en https://www.banxico.org.mx/SieAPIRest/ para obtener un token gratuito.
 

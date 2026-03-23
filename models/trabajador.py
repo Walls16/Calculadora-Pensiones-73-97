@@ -3,13 +3,11 @@ models/trabajador.py — Dataclass central con todos los datos del trabajador
 """
 
 from dataclasses import dataclass, field
-from datetime import date, datetime
+from datetime import date
 from typing import Optional
-import sys
-import os
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import AFORES, SUPUESTOS_DEFAULT
+import project_time
 
 
 @dataclass
@@ -40,7 +38,7 @@ class Trabajador:
     comision_afore:      Optional[float] = None   # None = usar CONSAR
 
     # ── Campos calculados (se llenan automáticamente al hacer @property) ──
-    _anno_calculo: int = field(default_factory=lambda: date.today().year, init=False, repr=False)
+    _anno_calculo: int = field(default_factory=project_time.current_year, init=False, repr=False)
 
     # ──────────────────────────────────────────────────────────────────────
     # PROPIEDADES CALCULADAS
@@ -48,7 +46,7 @@ class Trabajador:
 
     @property
     def edad_actual(self) -> int:
-        hoy = date.today()
+        hoy = project_time.today()
         return (
             hoy.year - self.fecha_nacimiento.year
             - ((hoy.month, hoy.day) < (self.fecha_nacimiento.month, self.fecha_nacimiento.day))
@@ -89,7 +87,7 @@ class Trabajador:
         if not self.nombre.strip():
             errores.append("El nombre no puede estar vacío.")
 
-        if self.fecha_nacimiento >= date.today():
+        if self.fecha_nacimiento >= project_time.today():
             errores.append("La fecha de nacimiento debe ser anterior a hoy.")
 
         if self.genero not in (0, 1):

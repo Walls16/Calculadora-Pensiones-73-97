@@ -13,48 +13,51 @@ La densidad de cotización refleja que no todos los meses del año se cotiza
 (desempleo, trabajo informal, etc.) — se toma de la tabla del Excel fuente.
 """
 
-import sys, os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from config import (
-    FACTOR_SALARIO_MAXIMO_COTIZABLE,
-    get_siefore,
-    SUPUESTOS_DEFAULT,
-)
-from data_fetchers.uma              import get_uma_mensual
-from data_fetchers.afore_rendimientos import get_rendimiento_afore, get_rendimiento_promedio_siefore
-from data_fetchers.afore_comisiones   import get_comision_afore
+from config import get_siefore, SUPUESTOS_DEFAULT
 from calculators.aportaciones         import (
     aportacion_mensual_total,
     proyectar_sbc,
     salario_cotizable,
 )
+import project_time
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # DENSIDAD DE COTIZACIÓN POR EDAD (del Excel fuente — hoja Densidad Cotización)
 # ─────────────────────────────────────────────────────────────────────────────
-_DENSIDAD_COTIZACION: dict[int, float] = {
-    15: 0.799, 16: 0.827, 17: 0.838, 18: 0.847, 19: 0.854,
-    20: 0.860, 21: 0.865, 22: 0.870, 23: 0.875, 24: 0.879,
-    25: 0.883, 26: 0.887, 27: 0.890, 28: 0.893, 29: 0.896,
-    30: 0.899, 31: 0.902, 32: 0.905, 33: 0.907, 34: 0.910,
-    35: 0.912, 36: 0.914, 37: 0.916, 38: 0.919, 39: 0.920,
-    40: 0.922, 41: 0.924, 42: 0.926, 43: 0.927, 44: 0.929,
-    45: 0.930, 46: 0.932, 47: 0.933, 48: 0.934, 49: 0.935,
-    50: 0.936, 51: 0.937, 52: 0.938, 53: 0.939, 54: 0.940,
-    55: 0.941, 56: 0.942, 57: 0.943, 58: 0.944, 59: 0.945,
-    60: 0.946, 61: 0.947, 62: 0.948, 63: 0.949, 64: 0.950,
+_DENSIDAD_ANCLAS: dict[int, float] = {
+    15: 0.799448,
+    20: 0.859801,
+    21: 0.865278,
+    30: 0.899416,
+    40: 0.922327,
+    50: 0.937142,
+    60: 0.946330,
+    65: 0.949164,
+    75: 0.951640,
+    90: 0.948164,
 }
 
 def get_densidad(edad: int) -> float:
     """Retorna la densidad de cotización para una edad dada."""
-    if edad in _DENSIDAD_COTIZACION:
-        return _DENSIDAD_COTIZACION[edad]
+    if edad in _DENSIDAD_ANCLAS:
+        return _DENSIDAD_ANCLAS[edad]
     if edad < 15:
-        return 0.80
+        return _DENSIDAD_ANCLAS[15]
     # Para edades > 64, usar el último valor disponible
-    return 0.950
+    if edad > 90:
+        return _DENSIDAD_ANCLAS[90]
+
+    edades = sorted(_DENSIDAD_ANCLAS)
+    for idx, edad_base in enumerate(edades[:-1]):
+        edad_sig = edades[idx + 1]
+        if edad_base <= edad <= edad_sig:
+            d0 = _DENSIDAD_ANCLAS[edad_base]
+            d1 = _DENSIDAD_ANCLAS[edad_sig]
+            factor = (edad - edad_base) / (edad_sig - edad_base)
+            return d0 + (d1 - d0) * factor
+
+    return _DENSIDAD_ANCLAS[90]
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -111,6 +114,9 @@ def proyectar_saldo(
     saldo_actual   = saldo_inicial
     semanas_total  = semanas_previas
     detalle_anual  = []
+
+    from data_fetchers.afore_comisiones import get_comision_afore
+    from data_fetchers.afore_rendimientos import get_rendimiento_afore
 
     for anio in range(anio_inicio, anio_retiro):
         edad = edad_inicio + (anio - anio_inicio)
@@ -189,9 +195,7 @@ def proyectar_saldo_desde_trabajador(trabajador, uma_override: float = None) -> 
         trabajador:    Instancia de models.Trabajador
         uma_override:  Si se da, sobreescribe el valor de UMA (para escenarios)
     """
-    from datetime import date
-
-    anio_actual = date.today().year
+    anio_actual = project_time.current_year()
 
     return proyectar_saldo(
         sbc_mensual          = trabajador.sbc_mensual,
@@ -234,6 +238,7 @@ def proyectar_escenarios(
         }
     """
     siefore = get_siefore(anno_nacimiento)
+    from data_fetchers.afore_comisiones import get_comision_afore
 
     # Obtener rango de rendimientos
     from data_fetchers.afore_rendimientos import (

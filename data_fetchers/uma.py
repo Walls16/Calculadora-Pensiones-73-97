@@ -14,15 +14,12 @@ Estructura del cache (uma.json):
 
 import json
 import logging
-from datetime import date, datetime
-from typing import Optional
+from datetime import datetime
 
 import requests
-from bs4 import BeautifulSoup
 
-import sys, os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import CACHE_UMA, URL_UMA
+import project_time
 
 log = logging.getLogger(__name__)
 
@@ -52,6 +49,13 @@ def _scrape_inegi() -> dict[str, dict]:
     Descarga la tabla de UMA desde INEGI y la parsea.
     Retorna dict {año_str: {diario, mensual, anual}} o lanza excepción.
     """
+    try:
+        from bs4 import BeautifulSoup
+    except ImportError as exc:
+        raise RuntimeError(
+            "Se requiere 'beautifulsoup4' para actualizar la UMA desde INEGI."
+        ) from exc
+
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -135,7 +139,7 @@ def fetch_uma(forzar_actualizacion: bool = False) -> dict[str, dict]:
     try:
         datos = _scrape_inegi()
         datos["_meta"] = {
-            "fecha_actualizacion": date.today().isoformat(),
+            "fecha_actualizacion": project_time.today().isoformat(),
             "fuente": "INEGI scraping",
         }
         _guardar_cache(datos)
@@ -216,7 +220,7 @@ def cache_esta_vigente(max_dias: int = 31) -> bool:
         if not fecha_str:
             return False
         fecha = datetime.fromisoformat(fecha_str).date()
-        return (date.today() - fecha).days <= max_dias
+        return (project_time.today() - fecha).days <= max_dias
     except Exception:
         return False
 

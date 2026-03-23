@@ -23,6 +23,7 @@ from calculators.anualidades import get_ax
 from calculators.aportaciones import calcular_aportaciones
 from calculators.saldo_afore import get_densidad
 from data_fetchers.udi import get_udi_hoy
+import project_time
 
 # ============================================================
 # CONSTANTES CUS
@@ -102,7 +103,7 @@ def calcular_pension_metodo_excel(
         inflacion_anual:    Inflacion (None = default Excel)
         tasa_tecnica:       Tasa tecnica actuarial (default 2.34%)
     """
-    anio_hoy    = date.today().year
+    anio_hoy    = project_time.current_year()
     anio_retiro = fecha_nacimiento.year + edad_retiro
     annos_work  = max(1, anio_retiro - anio_hoy)
 
@@ -224,7 +225,7 @@ def calcular_aportacion_para_tasa(
     pension_objetivo_pesos, tasa_actual, ultimo_salario_pesos, factible,
     pension_actual, delta_udis_necesario.
     """
-    annos = max(1, fecha_nacimiento.year + edad_retiro - date.today().year)
+    annos = max(1, fecha_nacimiento.year + edad_retiro - project_time.current_year())
 
     r_base = calcular_pension_metodo_excel(
         sbc_mensual      = sbc_mensual,
@@ -304,7 +305,7 @@ def calcular_aportacion_para_tasa(
     casado=0,
     tasa_tecnica=TASA_INTERES_TECNICO,
 ):
-    annos = max(1, fecha_nacimiento.year + edad_retiro - date.today().year)
+    annos = max(1, fecha_nacimiento.year + edad_retiro - project_time.current_year())
 
     r_base = calcular_pension_metodo_excel(
         sbc_mensual=sbc_mensual,
@@ -408,7 +409,7 @@ def calcular_aportacion_extra_para_tasa(
         tasa_objetivo:          tasa de reemplazo objetivo
         es_alcanzable:          si la meta es fisicamente posible
     """
-    anio_hoy    = date.today().year
+    anio_hoy    = project_time.current_year()
     anio_retiro = fecha_nacimiento.year + edad_retiro
     annos_work  = max(1, anio_retiro - anio_hoy)
 

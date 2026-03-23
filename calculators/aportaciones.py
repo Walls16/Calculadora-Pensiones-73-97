@@ -10,9 +10,6 @@ Lógica:
   - Salario máximo cotizable: 25 UMAs mensuales
 """
 
-import sys, os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from config import (
     CUOTAS_FIJAS,
     CUOTAS_CESANTIA_VEJEZ,

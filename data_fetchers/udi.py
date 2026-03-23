@@ -20,20 +20,20 @@ import csv
 import logging
 import os
 from datetime import date, datetime, timedelta
-from pathlib import Path
 from typing import Optional
 
 import requests
 
-import sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import CACHE_UDI, URL_BANXICO_UDI
+from config import BANXICO_TOKEN, CACHE_UDI, URL_BANXICO_UDI
+import project_time
 
 log = logging.getLogger(__name__)
 
 # Token de Banxico — se lee de variable de entorno o del config
 # Registrar token gratis en: https://www.banxico.org.mx/SieAPIRest/service/v1/token
-_BANXICO_TOKEN = os.environ.get("BANXICO_TOKEN", "")
+def _get_banxico_token() -> str:
+    """Lee el token activo de Banxico con prioridad a la variable de entorno."""
+    return os.environ.get("BANXICO_TOKEN", "").strip() or BANXICO_TOKEN.strip()
 
 # Últimos valores conocidos (del Excel fuente) para seed inicial del cache
 # Formato: [(fecha_str, valor), ...]
@@ -72,16 +72,17 @@ def _fetch_banxico(fecha_ini: str, fecha_fin: str) -> list[tuple[str, float]]:
     Raises:
         requests.HTTPError, ValueError
     """
-    if not _BANXICO_TOKEN:
+    token = _get_banxico_token()
+    if not token:
         raise ValueError(
             "Token de Banxico no configurado. "
             "Registra uno en https://www.banxico.org.mx/SieAPIRest/service/v1/token "
-            "y ponlo en la variable de entorno BANXICO_TOKEN."
+            "y ponlo en la variable de entorno BANXICO_TOKEN o en config.py."
         )
 
     url = URL_BANXICO_UDI.format(fecha_ini=fecha_ini, fecha_fin=fecha_fin)
     headers = {
-        "Bmx-Token": _BANXICO_TOKEN,
+        "Bmx-Token": token,
         "Accept": "application/json",
     }
 
@@ -174,13 +175,13 @@ def fetch_udi(forzar_actualizacion: bool = False) -> dict[str, float]:
         fecha_ini = "1995-04-04"
     else:
         ultima = _ultima_fecha_cache(cache)
-        hoy = date.today()
+        hoy = project_time.today()
         if ultima and ultima >= hoy - timedelta(days=1):
             log.info("UDI cache vigente (último: %s)", ultima)
             return cache
         fecha_ini = (ultima + timedelta(days=1)).isoformat() if ultima else "1995-04-04"
 
-    fecha_fin = date.today().isoformat()
+    fecha_fin = project_time.today().isoformat()
 
     try:
         nuevos = _fetch_banxico(fecha_ini, fecha_fin)
@@ -221,7 +222,7 @@ def get_udi_fecha(fecha: date) -> float:
 
 def get_udi_hoy() -> float:
     """Retorna el valor UDI de hoy (o el más reciente disponible)."""
-    return get_udi_fecha(date.today())
+    return get_udi_fecha(project_time.today())
 
 
 def get_udi_anio(anio: int) -> float:
@@ -252,7 +253,7 @@ def _proyectar_udi(anio_objetivo: int) -> float:
     if len(anios_disp) < 2:
         # Sin historial suficiente — usar inflación de 3.5%
         ultimo_valor = list(datos.values())[-1] if datos else 6.0
-        annos_diff = anio_objetivo - date.today().year
+        annos_diff = anio_objetivo - project_time.current_year()
         return ultimo_valor * (1.035 ** max(annos_diff, 0))
 
     # Calcular tasa implícita de los últimos 3 años
