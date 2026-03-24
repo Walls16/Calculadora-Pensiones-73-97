@@ -296,37 +296,20 @@ st.markdown("""
         border-radius: 20px;
         padding: 0.35rem 0.45rem;
         box-shadow: var(--shadow-soft);
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        overflow: visible !important;
         transform: none !important;
         animation: none !important;
-        transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
-        will-change: auto;
-        z-index: 0;
+        transition: none !important;
+        will-change: auto !important;
+        contain: layout paint;
     }
 
     .stPlotlyChart:hover,
     [data-testid="stPlotlyChart"]:hover {
         transform: none !important;
         animation: none !important;
-        box-shadow: 0 8px 20px rgba(27, 79, 114, 0.08);
-        border-color: rgba(27, 79, 114, 0.18);
-    }
-
-    .js-plotly-plot,
-    .plotly,
-    .plot-container,
-    .svg-container {
-        width: 100% !important;
-        max-width: 100% !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        overflow: visible !important;
-        transform: none !important;
-        animation: none !important;
-        will-change: auto !important;
+        transition: none !important;
+        box-shadow: var(--shadow-soft) !important;
+        border-color: var(--line) !important;
     }
 
     .hero-shell {
@@ -857,16 +840,14 @@ def banner_estado(clase: str, titulo: str, mensaje: str) -> None:
 
 def render_plotly(fig, key: str) -> None:
     st.plotly_chart(
-        fig,
-        use_container_width=True,
-        key=key,
-        config={
-            "displaylogo": False,
-            "responsive": True,
-            "modeBarButtonsToRemove": ["select2d", "lasso2d", "autoScale2d"],
-        },
-    )
-
+    fig,
+    use_container_width=True,
+    key=key,
+    config={
+        "displaylogo": False,
+        "modeBarButtonsToRemove": ["select2d", "lasso2d", "autoScale2d"],
+    },
+)
 
 def disparar_dialogo_impresion() -> None:
     components.html(
@@ -984,6 +965,13 @@ if not st.session_state.app_iniciada:
     <style>
     [data-testid="stSidebar"]{display:none!important}
     [data-testid="stToolbar"]{display:none!important}
+
+    .stButton > button[kind="primary"],
+    .stButton > button[kind="primary"]:hover,
+    .stButton > button[kind="primary"]:focus,
+    .stButton > button[kind="primary"]:active {
+        color: #ffffff !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -993,7 +981,7 @@ if not st.session_state.app_iniciada:
           <div class="hero-eyebrow">Calculadora actuarial LSS 1997</div>
           <div class="intro-grid">
             <div class="intro-panel">
-              <h1 class="hero-title">Proyecciones de retiro claras y listas para revisar.</h1>
+              <h1 class="hero-title">Proyecciones de retiro.</h1>
               <p class="hero-copy">
                 Reúne saldo AFORE, pensión, escenarios y metas de reemplazo en una vista clara,
                 con datos de INEGI, Banxico y CONSAR.
@@ -1008,7 +996,7 @@ if not st.session_state.app_iniciada:
             <div class="intro-side">
               <div>
                 <div class="info-label">Qué puedes revisar</div>
-                <div class="intro-value">5 vistas clave</div>
+                <div class="intro-value">Vistas clave</div>
                 <div class="hero-copy" style="margin-top:0;">
                   Resumen, aportaciones, saldo proyectado, pensión y escenarios en un solo lugar.
                 </div>
@@ -1047,7 +1035,20 @@ if not st.session_state.app_iniciada:
         unsafe_allow_html=True,
     )
 
+    st.markdown("""
+        <style>
+        [data-testid="stButton"] > button[kind="primary"],
+        [data-testid="stButton"] > button[kind="primary"]:hover,
+        [data-testid="stButton"] > button[kind="primary"]:focus,
+        [data-testid="stButton"] > button[kind="primary"]:active {
+            color: #ffffff !important;
+        }
+        </style>
+        """, unsafe_allow_html=True
+    )
+
     col_btn = st.columns([1, 1, 1])[1]
+    
     with col_btn:
         if st.button("Iniciar calculadora", type="primary", use_container_width=True):
             st.session_state.app_iniciada = True
@@ -1064,7 +1065,6 @@ if not st.session_state.app_iniciada:
     )
 
     st.stop()
-
 
 # ═══════════════════════════════════════════════════════════════════════════
 # SIDEBAR — DATOS DEL TRABAJADOR
