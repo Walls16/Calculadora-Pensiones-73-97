@@ -73,7 +73,7 @@ ANIO_HOY = project_time.current_year()
 
 st.set_page_config(
     page_title="Calculadora de Retiro LSS-1997",
-    page_icon=None,
+    page_icon="img.ico",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -107,7 +107,7 @@ st.markdown("""
     }
 
     html, body, [class*="css"]  {
-        font-family: "Source Sans Pro", sans-serif;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
         color: var(--text) !important;
     }
 
@@ -122,7 +122,7 @@ st.markdown("""
     }
 
     h1, h2, h3 {
-        font-family: "Source Sans Pro", sans-serif;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
         letter-spacing: -0.02em !important;
         color: var(--text) !important;
     }
@@ -149,6 +149,13 @@ st.markdown("""
     div[data-testid="stSidebar"],
     div[data-testid="stSidebarContent"] {
         background: #dfe5ec !important;
+    }
+
+    section[data-testid="stSidebar"],
+    div[data-testid="stSidebar"] {
+        width: 24rem !important;
+        min-width: 24rem !important;
+        max-width: 24rem !important;
     }
 
     div[data-testid="stSidebar"] {
@@ -185,11 +192,54 @@ st.markdown("""
         color: var(--text) !important;
     }
 
+    div[data-testid="stSidebarContent"] input,
+    div[data-testid="stSidebarContent"] textarea,
+    div[data-testid="stSidebarContent"] select {
+        background: #fcfcfd !important;
+        color: var(--text) !important;
+        -webkit-text-fill-color: var(--text) !important;
+        caret-color: var(--text) !important;
+    }
+
+    div[data-testid="stSidebarContent"] input::placeholder,
+    div[data-testid="stSidebarContent"] textarea::placeholder {
+        color: var(--text-muted) !important;
+        opacity: 1 !important;
+    }
+
     [data-baseweb="input"],
     [data-baseweb="select"] > div,
     textarea {
         background: #fcfcfd !important;
         border-color: var(--line) !important;
+    }
+
+    div[data-testid="stSidebarContent"] [data-baseweb="input"] > div,
+    div[data-testid="stSidebarContent"] [data-baseweb="base-input"] {
+        background: #fcfcfd !important;
+        color: var(--text) !important;
+    }
+
+    div[data-testid="stSidebarContent"] button,
+    div[data-testid="stSidebarContent"] [data-baseweb="input"] button,
+    div[data-testid="stSidebarContent"] [data-baseweb="select"] button {
+        background: #fcfcfd !important;
+        color: var(--text) !important;
+        border-color: var(--line) !important;
+        box-shadow: none !important;
+    }
+
+    div[data-testid="stSidebarContent"] [data-testid="stNumberInput"] button,
+    div[data-testid="stSidebarContent"] [data-testid="stDateInput"] button,
+    div[data-testid="stSidebarContent"] [data-testid="stSelectbox"] button {
+        background: #fcfcfd !important;
+        color: var(--text) !important;
+        border: 1px solid var(--line) !important;
+    }
+
+    div[data-testid="stSidebarContent"] svg {
+        fill: var(--text-muted) !important;
+        color: var(--text-muted) !important;
     }
 
     .stButton > button {
@@ -258,7 +308,7 @@ st.markdown("""
     }
 
     div[data-testid="stMetricValue"] {
-        font-family: "Source Sans Pro", sans-serif;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
         color: var(--text);
     }
 
@@ -280,6 +330,90 @@ st.markdown("""
         border-radius: var(--radius-md);
         overflow: hidden;
         box-shadow: var(--shadow-soft);
+        color-scheme: light !important;
+        color: var(--text) !important;
+    }
+
+    div[data-testid="stDataFrame"] * ,
+    div[data-testid="stTable"] * {
+        color: var(--text) !important;
+    }
+
+    div[data-testid="stDataFrame"] {
+        --gdg-bg-cell: #fcfcfd;
+        --gdg-bg-cell-medium: #f5f7fa;
+        --gdg-bg-header: #eef3f8;
+        --gdg-bg-header-has-focus: #e7eef6;
+        --gdg-bg-header-hovered: #e7eef6;
+        --gdg-bg-cell-selected: #eef3f8;
+        --gdg-bg-search-result: #eef3f8;
+        --gdg-text-dark: #24343A;
+        --gdg-text-medium: #66767A;
+        --gdg-text-light: #66767A;
+        --gdg-text-header: #24343A;
+        --gdg-text-group-header: #24343A;
+        --gdg-border-color: #bec9d8;
+        --gdg-accent-color: #1B4F72;
+        --gdg-accent-fg: #fcfcfd;
+        --gdg-bg-icon-header: #eef3f8;
+        --gdg-fg-icon-header: #66767A;
+        --gdg-bg-bubble: #fcfcfd;
+        --gdg-bg-bubble-selected: #eef3f8;
+        --gdg-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        --gdg-base-font-style: 400 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        --gdg-header-font-style: 600 13px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        --gdg-editor-font-size: 14px;
+        background: #fcfcfd !important;
+    }
+
+    div[data-testid="stDataFrame"] [data-testid="stDataFrameGlideDataEditor"] {
+        background: #fcfcfd !important;
+        color: var(--text) !important;
+        color-scheme: light !important;
+        --gdg-text-dark: #24343A !important;
+        --gdg-text-medium: #66767A !important;
+        --gdg-text-light: #66767A !important;
+        --gdg-text-header: #24343A !important;
+        --gdg-text-group-header: #24343A !important;
+    }
+
+    div[data-testid="stDataFrame"] [data-testid="stDataFrameGlideDataEditor"],
+    div[data-testid="stDataFrame"] .glideDataEditor,
+    div[data-testid="stDataFrame"] .dvn-scroller,
+    div[data-testid="stDataFrame"] canvas,
+    div[data-testid="stDataFrame"] [role="grid"],
+    div[data-testid="stTable"] table,
+    div[data-testid="stTable"] thead,
+    div[data-testid="stTable"] tbody,
+    div[data-testid="stTable"] tr,
+    div[data-testid="stTable"] th,
+    div[data-testid="stTable"] td {
+        background: #fcfcfd !important;
+        color: var(--text) !important;
+    }
+
+    div[data-testid="stDataFrame"] [role="grid"],
+    div[data-testid="stDataFrame"] [data-testid="stDataFrameGlideDataEditor"] *,
+    div[data-testid="stTable"] table *,
+    div[data-testid="stTable"] thead *,
+    div[data-testid="stTable"] tbody * {
+        color: #24343A !important;
+    }
+
+    div[data-testid="stDataFrame"] canvas {
+        filter: none !important;
+        opacity: 1 !important;
+        mix-blend-mode: normal !important;
+    }
+
+    div[data-testid="stTable"] th {
+        background: #eef3f8 !important;
+        color: var(--text) !important;
+        border-bottom: 1px solid var(--line) !important;
+    }
+
+    div[data-testid="stTable"] td {
+        border-top: 1px solid rgba(190, 201, 216, 0.45) !important;
     }
 
     div[data-testid="stExpander"] {
@@ -638,6 +772,39 @@ st.markdown("""
         margin-bottom: 0.55rem;
     }
 
+    div[data-testid="stCheckbox"] label[data-baseweb="checkbox"] {
+        background: #fcfcfd !important;
+        border: 1px solid var(--line) !important;
+        border-radius: 16px !important;
+        padding: 0.55rem 0.7rem !important;
+        box-shadow: var(--shadow-soft);
+        width: 100%;
+    }
+
+    div[data-testid="stCheckbox"] label[data-baseweb="checkbox"] > div {
+        color: var(--text) !important;
+    }
+
+    div[data-testid="stCheckbox"] label[data-baseweb="checkbox"] > div:first-child {
+        background: #fcfcfd !important;
+        border: 1px solid var(--line) !important;
+        border-radius: 8px !important;
+        box-shadow: none !important;
+    }
+
+    div[data-testid="stCheckbox"] label[data-baseweb="checkbox"] input + div {
+        background: #fcfcfd !important;
+        border-color: var(--line) !important;
+        box-shadow: none !important;
+    }
+
+    div[data-testid="stCheckbox"] [data-testid="stMarkdownContainer"],
+    div[data-testid="stCheckbox"] [data-testid="stMarkdownContainer"] p,
+    div[data-testid="stCheckbox"] span,
+    div[data-testid="stCheckbox"] small {
+        color: var(--text) !important;
+    }
+
     div[data-testid="stSidebarContent"] .stDivider {
         margin: 1rem 0 0.9rem 0;
     }
@@ -765,29 +932,14 @@ if "mostrar_reporte_impresion" not in st.session_state:
     st.session_state.mostrar_reporte_impresion = False
 if "banxico_token" not in st.session_state:
     st.session_state["banxico_token"] = ""
-if "sidebar_visible" not in st.session_state:
-    st.session_state.sidebar_visible = True
-
-if st.session_state.get("app_iniciada", False) and not st.session_state.sidebar_visible:
-    st.markdown(
-        """
-        <style>
-        section[data-testid="stSidebar"],
-        div[data-testid="stSidebar"] {
-            display: none !important;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
 
 
 def aplicar_tema_grafica(fig, height=360):
     fig.update_layout(
         paper_bgcolor="rgba(250,250,250,0)",
         plot_bgcolor="rgba(255,255,255,0.75)",
-        font=dict(family="Source Sans Pro, sans-serif", size=14),
-        title_font=dict(family="Source Sans Pro, sans-serif", size=22, color=COLOR_PRIMARIO),
+        font=dict(family='"Helvetica Neue", Helvetica, Arial, sans-serif', size=14),
+        title_font=dict(family='"Helvetica Neue", Helvetica, Arial, sans-serif', size=22, color=COLOR_PRIMARIO),
         font_color=TEXTO_BASE,
         margin=dict(t=56, b=36, l=20, r=20),
         height=height,
@@ -861,6 +1013,124 @@ def disparar_dialogo_impresion() -> None:
             break;
           } catch (error) {}
         }
+        </script>
+        """,
+        height=0,
+    )
+
+
+def render_sidebar_recovery_control() -> None:
+    components.html(
+        """
+        <script>
+        const doc = window.parent.document;
+        if (!doc.getElementById("sidebar-recovery-style")) {
+          const style = doc.createElement("style");
+          style.id = "sidebar-recovery-style";
+          style.textContent = `
+            #sidebar-recovery-btn {
+              position: fixed;
+              top: 1rem;
+              left: 1rem;
+              z-index: 1000;
+              display: none;
+              align-items: center;
+              gap: 0.45rem;
+              padding: 0.68rem 1rem;
+              border-radius: 999px;
+              border: 1px solid #bec9d8;
+              background: rgba(252, 252, 253, 0.98);
+              color: #24343A;
+              box-shadow: 0 10px 24px rgba(27, 79, 114, 0.10);
+              font: 600 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+              cursor: pointer;
+              transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+            }
+            #sidebar-recovery-btn:hover {
+              background: #ffffff;
+              border-color: rgba(27, 79, 114, 0.22);
+              box-shadow: 0 14px 28px rgba(27, 79, 114, 0.14);
+            }
+          `;
+          doc.head.appendChild(style);
+        }
+
+        let button = doc.getElementById("sidebar-recovery-btn");
+        if (!button) {
+          button = doc.createElement("button");
+          button.id = "sidebar-recovery-btn";
+          button.type = "button";
+          button.textContent = "Mostrar barra lateral";
+          doc.body.appendChild(button);
+        }
+
+        const getSidebar = () =>
+          doc.querySelector("section[data-testid='stSidebar'], div[data-testid='stSidebar']");
+
+        const isSidebarHidden = () => {
+          const sidebar = getSidebar();
+          if (!sidebar) return true;
+          const style = window.parent.getComputedStyle(sidebar);
+          const rect = sidebar.getBoundingClientRect();
+          return (
+            style.display === "none" ||
+            style.visibility === "hidden" ||
+            Number(style.opacity || 1) === 0 ||
+            rect.width < 80
+          );
+        };
+
+        const tryOpenSidebar = () => {
+          const candidates = Array.from(doc.querySelectorAll("button, [role='button']"));
+          const opener = candidates.find((element) => {
+            const text = [
+              element.getAttribute("aria-label") || "",
+              element.getAttribute("title") || "",
+              element.textContent || "",
+            ].join(" ").toLowerCase();
+            return (
+              (text.includes("sidebar") || text.includes("barra lateral")) &&
+              (text.includes("show") || text.includes("mostrar") || text.includes("open") || text.includes("abrir"))
+            );
+          });
+          if (opener) {
+            opener.click();
+          }
+
+          const sidebar = getSidebar();
+          if (sidebar) {
+            sidebar.style.display = "block";
+            sidebar.style.visibility = "visible";
+            sidebar.style.opacity = "1";
+            sidebar.style.transform = "none";
+            sidebar.style.minWidth = "24rem";
+            sidebar.style.width = "24rem";
+            sidebar.style.maxWidth = "24rem";
+            sidebar.style.flex = "0 0 24rem";
+          }
+
+          const sidebarContent = doc.querySelector("div[data-testid='stSidebarContent']");
+          if (sidebarContent) {
+            sidebarContent.style.display = "block";
+            sidebarContent.style.visibility = "visible";
+            sidebarContent.style.opacity = "1";
+          }
+
+          window.setTimeout(syncVisibility, 180);
+        };
+
+        const syncVisibility = () => {
+          button.style.display = isSidebarHidden() ? "inline-flex" : "none";
+        };
+
+        button.onclick = tryOpenSidebar;
+        syncVisibility();
+
+        const intervalKey = "__streamlitSidebarRecoveryInterval";
+        if (window.parent[intervalKey]) {
+          window.clearInterval(window.parent[intervalKey]);
+        }
+        window.parent[intervalKey] = window.setInterval(syncVisibility, 450);
         </script>
         """,
         height=0,
@@ -1065,6 +1335,8 @@ if not st.session_state.app_iniciada:
     )
 
     st.stop()
+
+render_sidebar_recovery_control()
 
 # ═══════════════════════════════════════════════════════════════════════════
 # SIDEBAR — DATOS DEL TRABAJADOR
@@ -1465,17 +1737,11 @@ with toolbar_actions_col:
         """
         <div class="app-toolbar">
           <div class="action-panel-label">Acciones</div>
-          <div class="app-toolbar-subtle">Desde aquí puedes mostrar la barra lateral, imprimir o cerrar la vista imprimible.</div>
+          <div class="app-toolbar-subtle">Desde aquí puedes abrir la versión imprimible o cerrar el reporte cuando ya no lo necesites.</div>
         </div>
         """,
         unsafe_allow_html=True,
     )
-    if st.button(
-        "Ocultar barra lateral" if st.session_state.sidebar_visible else "Mostrar barra lateral",
-        use_container_width=True,
-    ):
-        st.session_state.sidebar_visible = not st.session_state.sidebar_visible
-        st.rerun()
     if st.button("Imprimir / Exportar", use_container_width=True):
         st.session_state.mostrar_reporte_impresion = True
     if st.session_state.mostrar_reporte_impresion:
