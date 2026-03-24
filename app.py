@@ -242,6 +242,61 @@ st.markdown("""
         color: var(--text-muted) !important;
     }
 
+    div[data-testid="stTextInput"] [data-baseweb="input"],
+    div[data-testid="stNumberInput"] [data-baseweb="input"],
+    div[data-testid="stNumberInput"] [data-baseweb="base-input"],
+    div[data-testid="stDateInput"] [data-baseweb="input"],
+    div[data-testid="stDateInput"] [data-baseweb="base-input"],
+    div[data-testid="stSelectbox"] [data-baseweb="select"] > div,
+    div[data-testid="stTextInput"] > div,
+    div[data-testid="stNumberInput"] > div,
+    div[data-testid="stDateInput"] > div,
+    div[data-testid="stSelectbox"] > div {
+        background: #fcfcfd !important;
+        color: var(--text) !important;
+        border-color: var(--line) !important;
+        box-shadow: none !important;
+    }
+
+    div[data-testid="stTextInput"] input,
+    div[data-testid="stNumberInput"] input,
+    div[data-testid="stDateInput"] input,
+    div[data-testid="stSelectbox"] input,
+    input[type="text"],
+    input[type="number"],
+    input[type="date"] {
+        background: #fcfcfd !important;
+        color: var(--text) !important;
+        -webkit-text-fill-color: var(--text) !important;
+        caret-color: var(--text) !important;
+    }
+
+    div[data-testid="stTextInput"] input::placeholder,
+    div[data-testid="stNumberInput"] input::placeholder,
+    div[data-testid="stDateInput"] input::placeholder,
+    textarea::placeholder {
+        color: var(--text-muted) !important;
+        opacity: 1 !important;
+    }
+
+    div[data-testid="stNumberInput"] button,
+    div[data-testid="stDateInput"] button,
+    div[data-testid="stSelectbox"] button,
+    div[data-testid="stTextInput"] button {
+        background: #fcfcfd !important;
+        color: var(--text) !important;
+        border: 1px solid var(--line) !important;
+        box-shadow: none !important;
+    }
+
+    div[data-testid="stNumberInput"] button svg,
+    div[data-testid="stDateInput"] button svg,
+    div[data-testid="stSelectbox"] button svg,
+    div[data-testid="stTextInput"] button svg {
+        fill: var(--text-muted) !important;
+        color: var(--text-muted) !important;
+    }
+
     .stButton > button {
         border-radius: 999px;
         border: 1px solid rgba(27, 79, 114, 0.10);
@@ -323,7 +378,6 @@ st.markdown("""
         box-shadow: var(--shadow-soft);
     }
 
-    div[data-testid="stDataFrame"],
     div[data-testid="stTable"] {
         background: var(--surface);
         border: 1px solid var(--line);
@@ -334,54 +388,10 @@ st.markdown("""
         color: var(--text) !important;
     }
 
-    div[data-testid="stDataFrame"] * ,
     div[data-testid="stTable"] * {
         color: var(--text) !important;
     }
 
-    div[data-testid="stDataFrame"] {
-        --gdg-bg-cell: #fcfcfd;
-        --gdg-bg-cell-medium: #f5f7fa;
-        --gdg-bg-header: #eef3f8;
-        --gdg-bg-header-has-focus: #e7eef6;
-        --gdg-bg-header-hovered: #e7eef6;
-        --gdg-bg-cell-selected: #eef3f8;
-        --gdg-bg-search-result: #eef3f8;
-        --gdg-text-dark: #24343A;
-        --gdg-text-medium: #66767A;
-        --gdg-text-light: #66767A;
-        --gdg-text-header: #24343A;
-        --gdg-text-group-header: #24343A;
-        --gdg-border-color: #bec9d8;
-        --gdg-accent-color: #1B4F72;
-        --gdg-accent-fg: #fcfcfd;
-        --gdg-bg-icon-header: #eef3f8;
-        --gdg-fg-icon-header: #66767A;
-        --gdg-bg-bubble: #fcfcfd;
-        --gdg-bg-bubble-selected: #eef3f8;
-        --gdg-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        --gdg-base-font-style: 400 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
-        --gdg-header-font-style: 600 13px "Helvetica Neue", Helvetica, Arial, sans-serif;
-        --gdg-editor-font-size: 14px;
-        background: #fcfcfd !important;
-    }
-
-    div[data-testid="stDataFrame"] [data-testid="stDataFrameGlideDataEditor"] {
-        background: #fcfcfd !important;
-        color: var(--text) !important;
-        color-scheme: light !important;
-        --gdg-text-dark: #24343A !important;
-        --gdg-text-medium: #66767A !important;
-        --gdg-text-light: #66767A !important;
-        --gdg-text-header: #24343A !important;
-        --gdg-text-group-header: #24343A !important;
-    }
-
-    div[data-testid="stDataFrame"] [data-testid="stDataFrameGlideDataEditor"],
-    div[data-testid="stDataFrame"] .glideDataEditor,
-    div[data-testid="stDataFrame"] .dvn-scroller,
-    div[data-testid="stDataFrame"] canvas,
-    div[data-testid="stDataFrame"] [role="grid"],
     div[data-testid="stTable"] table,
     div[data-testid="stTable"] thead,
     div[data-testid="stTable"] tbody,
@@ -392,18 +402,10 @@ st.markdown("""
         color: var(--text) !important;
     }
 
-    div[data-testid="stDataFrame"] [role="grid"],
-    div[data-testid="stDataFrame"] [data-testid="stDataFrameGlideDataEditor"] *,
     div[data-testid="stTable"] table *,
     div[data-testid="stTable"] thead *,
     div[data-testid="stTable"] tbody * {
         color: #24343A !important;
-    }
-
-    div[data-testid="stDataFrame"] canvas {
-        filter: none !important;
-        opacity: 1 !important;
-        mix-blend-mode: normal !important;
     }
 
     div[data-testid="stTable"] th {
@@ -722,7 +724,6 @@ st.markdown("""
     .report-shell,
     .app-toolbar,
     div[data-testid="stMetric"],
-    div[data-testid="stDataFrame"],
     div[data-testid="stTable"],
     div[data-testid="stExpander"] {
         animation: uiFadeUp 0.36s ease both;
@@ -796,6 +797,11 @@ st.markdown("""
         background: #fcfcfd !important;
         border-color: var(--line) !important;
         box-shadow: none !important;
+    }
+
+    div[data-testid="stCheckbox"] label[data-baseweb="checkbox"] svg {
+        fill: var(--primary) !important;
+        color: var(--primary) !important;
     }
 
     div[data-testid="stCheckbox"] [data-testid="stMarkdownContainer"],
@@ -888,7 +894,6 @@ st.markdown("""
         .summary-side,
         .report-shell,
         div[data-testid="stMetric"],
-        div[data-testid="stDataFrame"],
         div[data-testid="stTable"] {
             box-shadow: none !important;
             background: white !important;
@@ -1024,16 +1029,17 @@ def render_sidebar_recovery_control() -> None:
         """
         <script>
         const doc = window.parent.document;
+
         if (!doc.getElementById("sidebar-recovery-style")) {
           const style = doc.createElement("style");
           style.id = "sidebar-recovery-style";
           style.textContent = `
             #sidebar-recovery-btn {
               position: fixed;
-              top: 1rem;
-              left: 1rem;
-              z-index: 1000;
-              display: none;
+              top: 0.9rem;
+              left: 0.9rem;
+              z-index: 99999;
+              display: inline-flex;
               align-items: center;
               gap: 0.45rem;
               padding: 0.68rem 1rem;
@@ -1044,7 +1050,7 @@ def render_sidebar_recovery_control() -> None:
               box-shadow: 0 10px 24px rgba(27, 79, 114, 0.10);
               font: 600 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
               cursor: pointer;
-              transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+              transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
             }
             #sidebar-recovery-btn:hover {
               background: #ffffff;
@@ -1067,34 +1073,48 @@ def render_sidebar_recovery_control() -> None:
         const getSidebar = () =>
           doc.querySelector("section[data-testid='stSidebar'], div[data-testid='stSidebar']");
 
-        const isSidebarHidden = () => {
-          const sidebar = getSidebar();
-          if (!sidebar) return true;
-          const style = window.parent.getComputedStyle(sidebar);
-          const rect = sidebar.getBoundingClientRect();
-          return (
-            style.display === "none" ||
-            style.visibility === "hidden" ||
-            Number(style.opacity || 1) === 0 ||
-            rect.width < 80
-          );
-        };
-
-        const tryOpenSidebar = () => {
+        const getCollapseToggle = () => {
           const candidates = Array.from(doc.querySelectorAll("button, [role='button']"));
-          const opener = candidates.find((element) => {
+          return candidates.find((element) => {
             const text = [
               element.getAttribute("aria-label") || "",
               element.getAttribute("title") || "",
               element.textContent || "",
             ].join(" ").toLowerCase();
+
             return (
-              (text.includes("sidebar") || text.includes("barra lateral")) &&
-              (text.includes("show") || text.includes("mostrar") || text.includes("open") || text.includes("abrir"))
+              text.includes("sidebar") ||
+              text.includes("barra lateral") ||
+              text.includes("collapse") ||
+              text.includes("expand")
             );
           });
-          if (opener) {
-            opener.click();
+        };
+
+        const isSidebarHidden = () => {
+          const sidebar = getSidebar();
+          if (!sidebar) return true;
+
+          const style = window.parent.getComputedStyle(sidebar);
+          const rect = sidebar.getBoundingClientRect();
+
+          const hiddenByStyle =
+            style.display === "none" ||
+            style.visibility === "hidden" ||
+            Number(style.opacity || 1) === 0;
+
+          const hiddenBySize = rect.width < 120;
+
+          const hiddenByPosition =
+            rect.right < 40 || rect.left < -200;
+
+          return hiddenByStyle || hiddenBySize || hiddenByPosition;
+        };
+
+        const forceOpenSidebar = () => {
+          const toggle = getCollapseToggle();
+          if (toggle) {
+            toggle.click();
           }
 
           const sidebar = getSidebar();
@@ -1102,7 +1122,7 @@ def render_sidebar_recovery_control() -> None:
             sidebar.style.display = "block";
             sidebar.style.visibility = "visible";
             sidebar.style.opacity = "1";
-            sidebar.style.transform = "none";
+            sidebar.style.transform = "translateX(0)";
             sidebar.style.minWidth = "24rem";
             sidebar.style.width = "24rem";
             sidebar.style.maxWidth = "24rem";
@@ -1116,21 +1136,24 @@ def render_sidebar_recovery_control() -> None:
             sidebarContent.style.opacity = "1";
           }
 
-          window.setTimeout(syncVisibility, 180);
+          setTimeout(syncVisibility, 150);
+          setTimeout(syncVisibility, 400);
         };
 
         const syncVisibility = () => {
           button.style.display = isSidebarHidden() ? "inline-flex" : "none";
         };
 
-        button.onclick = tryOpenSidebar;
+        button.onclick = forceOpenSidebar;
+
         syncVisibility();
 
-        const intervalKey = "__streamlitSidebarRecoveryInterval";
-        if (window.parent[intervalKey]) {
-          window.clearInterval(window.parent[intervalKey]);
+        if (window.parent.__sidebarRecoveryInterval) {
+          clearInterval(window.parent.__sidebarRecoveryInterval);
         }
-        window.parent[intervalKey] = window.setInterval(syncVisibility, 450);
+        window.parent.__sidebarRecoveryInterval = setInterval(syncVisibility, 500);
+        window.addEventListener("resize", syncVisibility);
+        doc.addEventListener("click", () => setTimeout(syncVisibility, 120));
         </script>
         """,
         height=0,
@@ -1185,6 +1208,46 @@ def slider_con_input(
     )
     return st.session_state[key]
 
+
+def tabla_blanca_texto_negro(df: pd.DataFrame) -> None:
+    styled = (
+        df.style
+        .hide(axis="index")
+        .set_properties(**{
+            "background-color": "#ffffff",
+            "color": "#111111",
+            "border-color": "#d6dde6",
+        })
+        .set_table_styles([
+            {
+                "selector": "th",
+                "props": [
+                    ("background-color", "#eef3f8"),
+                    ("color", "#111111"),
+                    ("font-weight", "700"),
+                    ("border-bottom", "1px solid #d6dde6"),
+                    ("text-align", "left"),
+                ],
+            },
+            {
+                "selector": "td",
+                "props": [
+                    ("background-color", "#ffffff"),
+                    ("color", "#111111"),
+                    ("border-top", "1px solid #e6ebf1"),
+                ],
+            },
+            {
+                "selector": "table",
+                "props": [
+                    ("color", "#111111"),
+                    ("background-color", "#ffffff"),
+                    ("border-collapse", "collapse"),
+                ],
+            },
+        ])
+    )
+    st.table(styled)
 
 def actualizar_fuentes_externas(token_banxico: str) -> tuple[list[str], list[str]]:
     if token_banxico.strip():
@@ -1888,7 +1951,7 @@ with tab2:
             ],
         }
         df_ap = pd.DataFrame(data_ap)
-        st.dataframe(df_ap, hide_index=True, use_container_width=True)
+        tabla_blanca_texto_negro(df_ap)
 
         st.caption(
             f"SBC cotizable: **${aportaciones['sbc_cotizable']:,.2f}** " f"(bracket: {aportaciones['bracket']})" )
@@ -2008,7 +2071,7 @@ with tab3:
         df_5_show["Rend. neto"]       = df_5_show["Rend. neto"].map("{:.2%}".format)
         df_5_show["Semanas acum."]    = df_5_show["Semanas acum."].map("{:,}".format)
         df_5_show["Saldo al fin"]     = df_5_show["Saldo al fin"].map("${:,.0f}".format)
-        st.dataframe(df_5_show, hide_index=True, use_container_width=True)
+        tabla_blanca_texto_negro(df_5_show)
 
 
 #  TAB 4: PENSIÓN 
@@ -2223,7 +2286,7 @@ with tab4:
                     "Aportacion extra": f"${ri['aportacion_extra_pesos']:,.0f}/mes",
                     "% del SBC":  f"{ri['pct_sbc']:.1%}",
                 })
-        st.dataframe(pd.DataFrame(filas_sens), hide_index=True, use_container_width=True)
+        tabla_blanca_texto_negro(pd.DataFrame(filas_sens))
 
         st.caption(
             " Las aportaciones voluntarias al AFORE pueden deducirse de impuestos " "(hasta el 10% del ingreso anual o 5 UMAs anuales). " "Consulta con tu AFORE para abrir una subcuenta voluntaria." )
@@ -2346,7 +2409,7 @@ with tab5:
                 f"{p_opt_real/_sbc_retiro_real:.1%}" if _sbc_retiro_real > 0 else "N/A",
         },
     ])
-    st.dataframe(df_esc_comp, hide_index=True, use_container_width=True)
+    tabla_blanca_texto_negro(df_esc_comp)
 
 
 # 
@@ -2387,7 +2450,7 @@ if st.session_state.mostrar_reporte_impresion:
         """,
         unsafe_allow_html=True,
     )
-    st.dataframe(df_ap, hide_index=True, use_container_width=True)
+    tabla_blanca_texto_negro(df_ap)
     render_plotly(fig_pie, "report_aportaciones_pie")
     render_plotly(fig_trans, "report_aportaciones_transicion")
 
@@ -2405,7 +2468,7 @@ if st.session_state.mostrar_reporte_impresion:
     if not df_det.empty:
         render_plotly(fig_saldo, "report_saldo_acumulado")
         render_plotly(fig_sbc, "report_sbc_proyectado")
-        st.dataframe(df_5_show, hide_index=True, use_container_width=True)
+        tabla_blanca_texto_negro(df_5_show)
 
     st.markdown(
         """
@@ -2426,7 +2489,7 @@ if st.session_state.mostrar_reporte_impresion:
     with pen3:
         st.metric("Pension equivalente en salario de hoy", f"${_pension_equiv_hoy:,.0f}")
     if "filas_sens" in locals():
-        st.dataframe(pd.DataFrame(filas_sens), hide_index=True, use_container_width=True)
+        tabla_blanca_texto_negro(pd.DataFrame(filas_sens))
 
     st.markdown(
         """
@@ -2440,7 +2503,7 @@ if st.session_state.mostrar_reporte_impresion:
         unsafe_allow_html=True,
     )
     render_plotly(fig_esc, "report_escenarios_saldo")
-    st.dataframe(df_esc_comp, hide_index=True, use_container_width=True)
+    tabla_blanca_texto_negro(df_esc_comp)
 
 
 # 
