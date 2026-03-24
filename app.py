@@ -136,7 +136,7 @@ st.markdown("""
         font-size: 1.35rem;
     }
 
-    p, label, .stCaption, .stMarkdown, .stTextInput, .stSelectbox, .stNumberInput, .stSlider {
+    p, label, .stCaption, .stMarkdown, .stTextInput, .stSelectbox, .stNumberInput {
         color: var(--text) !important;
     }
 
@@ -145,8 +145,13 @@ st.markdown("""
         display: none !important;
     }
 
+    section[data-testid="stSidebar"],
+    div[data-testid="stSidebar"],
+    div[data-testid="stSidebarContent"] {
+        background: #dfe5ec !important;
+    }
+
     div[data-testid="stSidebar"] {
-        background: var(--bg);
         border-right: 1px solid var(--line);
     }
 
@@ -185,16 +190,6 @@ st.markdown("""
     textarea {
         background: #fcfcfd !important;
         border-color: var(--line) !important;
-    }
-
-    .stSlider [data-baseweb="slider"] > div > div {
-        background: rgba(27, 79, 114, 0.18);
-    }
-
-    .stSlider [role="slider"] {
-        background: var(--primary);
-        border-color: var(--primary);
-        box-shadow: 0 0 0 5px rgba(27, 79, 114, 0.10);
     }
 
     .stButton > button {
@@ -301,6 +296,37 @@ st.markdown("""
         border-radius: 20px;
         padding: 0.35rem 0.45rem;
         box-shadow: var(--shadow-soft);
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        overflow: visible !important;
+        transform: none !important;
+        animation: none !important;
+        transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+        will-change: auto;
+        z-index: 0;
+    }
+
+    .stPlotlyChart:hover,
+    [data-testid="stPlotlyChart"]:hover {
+        transform: none !important;
+        animation: none !important;
+        box-shadow: 0 8px 20px rgba(27, 79, 114, 0.08);
+        border-color: rgba(27, 79, 114, 0.18);
+    }
+
+    .js-plotly-plot,
+    .plotly,
+    .plot-container,
+    .svg-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        overflow: visible !important;
+        transform: none !important;
+        animation: none !important;
+        will-change: auto !important;
     }
 
     .hero-shell {
@@ -581,9 +607,7 @@ st.markdown("""
     div[data-testid="stMetric"],
     div[data-testid="stDataFrame"],
     div[data-testid="stTable"],
-    div[data-testid="stExpander"],
-    .stPlotlyChart,
-    [data-testid="stPlotlyChart"] {
+    div[data-testid="stExpander"] {
         animation: uiFadeUp 0.36s ease both;
         transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
     }
@@ -594,11 +618,9 @@ st.markdown("""
     .scenario-card:hover,
     .report-shell:hover,
     div[data-testid="stMetric"]:hover,
-    div[data-testid="stExpander"]:hover,
-    .stPlotlyChart:hover,
-    [data-testid="stPlotlyChart"]:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 10px 26px rgba(27, 79, 114, 0.08);
+    div[data-testid="stExpander"]:hover {
+        transform: translateY(-2px) scale(1.04);
+        box-shadow: 0 14px 30px rgba(27, 79, 114, 0.20);
         border-color: rgba(27, 79, 114, 0.22);
     }
 
@@ -624,7 +646,6 @@ st.markdown("""
     div[data-testid="stSidebarContent"] .stDateInput,
     div[data-testid="stSidebarContent"] .stSelectbox,
     div[data-testid="stSidebarContent"] .stCheckbox,
-    div[data-testid="stSidebarContent"] .stSlider,
     div[data-testid="stSidebarContent"] div[data-testid="stExpander"] {
         background: #fcfcfd;
         border: 1px solid var(--line);
@@ -696,7 +717,6 @@ st.markdown("""
         .stDownloadButton,
         .stTextInput,
         .stNumberInput,
-        .stSlider,
         .stSelectbox,
         .stCheckbox,
         .stDateInput,
@@ -762,6 +782,21 @@ if "mostrar_reporte_impresion" not in st.session_state:
     st.session_state.mostrar_reporte_impresion = False
 if "banxico_token" not in st.session_state:
     st.session_state["banxico_token"] = ""
+if "sidebar_visible" not in st.session_state:
+    st.session_state.sidebar_visible = True
+
+if st.session_state.get("app_iniciada", False) and not st.session_state.sidebar_visible:
+    st.markdown(
+        """
+        <style>
+        section[data-testid="stSidebar"],
+        div[data-testid="stSidebar"] {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def aplicar_tema_grafica(fig, height=360):
@@ -866,63 +901,37 @@ def slider_con_input(
     number_format: str | None = None,
     help: str | None = None,
 ):
-    slider_key = f"{key}__slider"
     number_key = f"{key}__number"
 
     if key not in st.session_state:
         st.session_state[key] = value
-    if slider_key not in st.session_state:
-        st.session_state[slider_key] = st.session_state[key]
     if number_key not in st.session_state:
         st.session_state[number_key] = st.session_state[key]
 
     def _clamp(valor):
         return max(min_value, min(max_value, valor))
 
-    def _sync_from_slider():
-        valor = _clamp(st.session_state[slider_key])
-        st.session_state[key] = valor
-        st.session_state[number_key] = valor
-
     def _sync_from_number():
         valor = _clamp(st.session_state[number_key])
         st.session_state[key] = valor
-        st.session_state[slider_key] = valor
         st.session_state[number_key] = valor
 
     st.markdown(f"<div class='slider-inline-label'>{label}</div>", unsafe_allow_html=True)
-    col_slider, col_num = st.columns([4.2, 1.4])
-    with col_slider:
-        slider_kwargs = {}
-        if slider_format is not None:
-            slider_kwargs["format"] = slider_format
-        st.slider(
-            label,
-            min_value=min_value,
-            max_value=max_value,
-            value=st.session_state[key],
-            step=step,
-            key=slider_key,
-            label_visibility="collapsed",
-            on_change=_sync_from_slider,
-            help=help,
-            **slider_kwargs,
-        )
-    with col_num:
-        number_kwargs = {}
-        if number_format is not None:
-            number_kwargs["format"] = number_format
-        st.number_input(
-            f"{label} valor",
-            min_value=min_value,
-            max_value=max_value,
-            value=st.session_state[key],
-            step=step,
-            key=number_key,
-            label_visibility="collapsed",
-            on_change=_sync_from_number,
-            **number_kwargs,
-        )
+    number_kwargs = {}
+    if number_format is not None:
+        number_kwargs["format"] = number_format
+    st.number_input(
+        f"{label} valor",
+        min_value=min_value,
+        max_value=max_value,
+        value=st.session_state[key],
+        step=step,
+        key=number_key,
+        label_visibility="collapsed",
+        on_change=_sync_from_number,
+        help=help,
+        **number_kwargs,
+    )
     return st.session_state[key]
 
 
@@ -984,28 +993,28 @@ if not st.session_state.app_iniciada:
           <div class="hero-eyebrow">Calculadora actuarial LSS 1997</div>
           <div class="intro-grid">
             <div class="intro-panel">
-              <h1 class="hero-title">Proyecciones de retiro claras, consistentes y listas para presentar.</h1>
+              <h1 class="hero-title">Proyecciones de retiro claras y listas para revisar.</h1>
               <p class="hero-copy">
-                La app concentra saldo AFORE, pension, escenarios y metas de reemplazo con una lectura mas
-                limpia, manteniendo los calculos del proyecto y usando referencias de INEGI, Banxico y CONSAR.
+                Reúne saldo AFORE, pensión, escenarios y metas de reemplazo en una vista clara,
+                con datos de INEGI, Banxico y CONSAR.
               </p>
               <div class="hero-pills">
-                <span class="hero-pill">Metodo CUS en UDIs</span>
+                <span class="hero-pill">Método CUS en UDIs</span>
                 <span class="hero-pill">RCV vs PMG</span>
                 <span class="hero-pill">Escenarios y metas</span>
-                <span class="hero-pill">Datos vigentes y cache local</span>
+                <span class="hero-pill">Datos vigentes y caché local</span>
               </div>
             </div>
             <div class="intro-side">
               <div>
-                <div class="info-label">Resumen de la experiencia</div>
-                <div class="intro-value">5 vistas de analisis</div>
+                <div class="info-label">Qué puedes revisar</div>
+                <div class="intro-value">5 vistas clave</div>
                 <div class="hero-copy" style="margin-top:0;">
-                  Resumen ejecutivo, aportaciones, saldo proyectado, pension y escenarios en una sola interfaz.
+                  Resumen, aportaciones, saldo proyectado, pensión y escenarios en un solo lugar.
                 </div>
               </div>
               <div class="hero-copy" style="margin-top:1rem;">
-                Pensado para escritorio y para exportar una lectura completa cuando el caso ya este listo.
+                Pensado para escritorio y para exportar el caso completo cuando lo necesites.
               </div>
             </div>
           </div>
@@ -1019,7 +1028,7 @@ if not st.session_state.app_iniciada:
               </div>
             </div>
             <div class="info-tile">
-              <div class="info-label">Direccion academica</div>
+              <div class="info-label">Dirección académica</div>
               <div style="line-height:1.75;color:#17324d;">
                 Dr. Francisco Garcia Castillo<br>
                 UDLAP
@@ -1028,7 +1037,7 @@ if not st.session_state.app_iniciada:
             <div class="info-tile">
               <div class="info-label">Advertencia</div>
               <div style="line-height:1.75;color:#17324d;">
-                Herramienta orientativa para analisis y simulacion. No sustituye la asesoria
+                Herramienta de apoyo para análisis y simulación. No sustituye la asesoría
                 profesional para decisiones de retiro.
               </div>
             </div>
@@ -1047,8 +1056,8 @@ if not st.session_state.app_iniciada:
     st.markdown(
         """
         <div style="text-align:center;margin:1rem auto 0 auto;color:#5f6f7d;max-width:760px;line-height:1.7;">
-            Datos de referencia: INEGI, Banxico y CONSAR. La interfaz esta enfocada en lectura clara,
-            comparación de escenarios y salida imprimible para compartir resultados.
+            Fuentes de referencia: INEGI, Banxico y CONSAR. La interfaz está pensada para leer,
+            comparar y compartir resultados con claridad.
         </div>
         """,
         unsafe_allow_html=True,
@@ -1063,7 +1072,7 @@ if not st.session_state.app_iniciada:
 
 with st.sidebar:
     st.title(" Retiro LSS-1997")
-    st.caption("Calculadora actuarial bajo régimen 1997")
+    st.caption("Calculadora actuarial para el régimen 1997")
 
     st.divider()
     st.subheader(" Datos Personales")
@@ -1096,7 +1105,7 @@ with st.sidebar:
         step=500.0,
         key="sbc_actual",
         number_format="%.0f",
-        help="Salario Base de Cotización mensual actual",
+        help="Salario base de cotización mensual actual.",
     )
 
     semanas = slider_con_input(
@@ -1107,13 +1116,13 @@ with st.sidebar:
         step=1,
         key="semanas_cotizadas",
         number_format="%d",
-        help="Semanas ya cotizadas al IMSS (incluye periodos anteriores)",
+        help="Semanas acumuladas en el IMSS, incluidos periodos anteriores.",
     )
 
     cotizo_antes_97 = st.checkbox(
         "Cotizó antes del 1° julio 1997",
         value=False,
-        help="Activa la opción del 4° Transitorio",
+        help="Activa la opción del 4.º transitorio.",
     )
 
     afore = st.selectbox("AFORE", AFORES, index=AFORES.index("XXI Banorte"))
@@ -1202,24 +1211,24 @@ with st.sidebar:
             ) / 100
 
     st.divider()
-    st.subheader(" Actualizacion de datos")
+    st.subheader(" Actualización de datos")
     actualizar_datos = False
     banxico_token_input = st.session_state.get("banxico_token", "")
 
     if st.button(
-        " Actualizar datos de internet",
+        " Actualizar datos en línea",
         use_container_width=True,
-        help="Abre el panel para refrescar UMA, UDI, rendimientos y comisiones.",
+        help="Abre el panel para actualizar UMA, UDI, rendimientos y comisiones.",
     ):
         st.session_state.mostrar_fuentes_externas = True
 
     if st.session_state.mostrar_fuentes_externas:
-        st.markdown("**Fuentes Externas**")
+        st.markdown("**Fuentes externas**")
         banxico_token_input = st.text_input(
             "Token de Banxico",
             value=st.session_state.get("banxico_token", ""),
             type="password",
-            help="Solo se usa para intentar actualizar la UDI en esta sesion. Si lo dejas vacio, la app usa el token de entorno/config si existe.",
+            help="Se usa solo para actualizar la UDI en esta sesión. Si lo dejas vacío, la app intentará usar el token del entorno o de la configuración.",
         )
         st.session_state["banxico_token"] = banxico_token_input
         token_banxico_disponible = bool(
@@ -1228,9 +1237,9 @@ with st.sidebar:
             or BANXICO_TOKEN.strip()
         )
         st.caption(
-            "UDI lista para actualizar desde Banxico."
+            "La UDI se puede actualizar con Banxico."
             if token_banxico_disponible
-            else "UDI sin token: la actualizacion usara cache local o fallback."
+            else "Sin token de Banxico: se usará el caché local o el respaldo."
         )
 
         col_fuentes_1, col_fuentes_2 = st.columns(2)
@@ -1338,12 +1347,12 @@ if actualizacion_exitosa:
     banner_estado(
         "ok",
         "Fuentes actualizadas",
-        "Se intento refrescar: " + ", ".join(actualizacion_exitosa) + ".",
+        "Se actualizó: " + ", ".join(actualizacion_exitosa) + ".",
     )
 if actualizacion_advertencias:
     banner_estado(
         "warn",
-        "Revision de fuentes externas",
+        "Revisión de fuentes externas",
         " | ".join(actualizacion_advertencias),
     )
 
@@ -1410,29 +1419,29 @@ if not cumple:
     banner_estado(
         "warn",
         "Requisito pendiente",
-        f"Con la proyeccion actual no cumple las {sem_req:,} semanas requeridas para retiro en {t.anno_retiro}. "
-        f"Faltan alrededor de {sem_falt:,} semanas, equivalentes a {sem_falt//52:.1f} años adicionales de cotización.",
+        f"Con la proyección actual no alcanza las {sem_req:,} semanas necesarias para retirarse en {t.anno_retiro}. "
+        f"Faltarían unas {sem_falt:,} semanas, equivalentes a {sem_falt//52:.1f} años más de cotización.",
     )
 elif fuente == "PMG":
     banner_estado(
         "info",
         "Resultado con PMG",
-        "El saldo proyectado no supera la Pension Minima Garantizada. "
-        "La app muestra la PMG como pension final y el deficit asociado para transparentar la diferencia.",
+        "El saldo proyectado no alcanza para superar la Pensión Mínima Garantizada. "
+        "Por eso se muestra la PMG como pensión final y la brecha correspondiente.",
     )
 else:
     banner_estado(
         "ok",
         "Trayectoria suficiente",
-        "La proyeccion cumple los requisitos para una pension financiada por saldo AFORE bajo los supuestos actuales.",
+        "Con los supuestos actuales, la proyección sí alcanza para una pensión financiada con el saldo de la AFORE.",
     )
 
 toolbar_copy = """
 <div class="app-toolbar">
   <div class="action-panel-label">Centro de acciones</div>
   <div class="app-toolbar-title">
-    Navega las 5 vistas para revisar el caso y, cuando esté listo, abre la versión imprimible
-    para compartir todo el expediente en una sola salida.
+    Revisa el caso en estas cinco vistas y, cuando quieras, abre la versión imprimible
+    para compartir el expediente completo.
   </div>
 """
 
@@ -1456,11 +1465,17 @@ with toolbar_actions_col:
         """
         <div class="app-toolbar">
           <div class="action-panel-label">Acciones</div>
-          <div class="app-toolbar-subtle">Exporta, imprime o cierra la vista imprimible desde este panel.</div>
+          <div class="app-toolbar-subtle">Desde aquí puedes mostrar la barra lateral, imprimir o cerrar la vista imprimible.</div>
         </div>
         """,
         unsafe_allow_html=True,
     )
+    if st.button(
+        "Ocultar barra lateral" if st.session_state.sidebar_visible else "Mostrar barra lateral",
+        use_container_width=True,
+    ):
+        st.session_state.sidebar_visible = not st.session_state.sidebar_visible
+        st.rerun()
     if st.button("Imprimir / Exportar", use_container_width=True):
         st.session_state.mostrar_reporte_impresion = True
     if st.session_state.mostrar_reporte_impresion:
@@ -1487,7 +1502,7 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 with tab1:
     st.subheader("Resultado Principal")
     st.markdown(
-        "<div class='section-intro'>Una lectura ejecutiva de la pension esperada, el saldo acumulado y la tasa de reemplazo bajo el metodo actuarial principal.</div>",
+        "<div class='section-intro'>Aquí ves la pensión estimada, el saldo acumulado y la tasa de reemplazo en una lectura rápida.</div>",
         unsafe_allow_html=True,
     )
 
@@ -1495,7 +1510,7 @@ with tab1:
     banner_estado(
         "info",
         f"Valores comparables en pesos de {ANIO_HOY}",
-        "Toda la lectura del resumen se muestra en poder adquisitivo actual para evitar mezclar montos nominales futuros con referencias de hoy.",
+        "Todos los montos del resumen están expresados en pesos de hoy para que la comparación sea directa.",
     )
 
     c1, c2, c3, c4 = st.columns(4)
@@ -1573,7 +1588,7 @@ with tab1:
 #  TAB 2: APORTACIONES 
 with tab2:
     st.markdown(
-        "<div class='section-intro'>Aqui se ve quien aporta, cuanto entra al AFORE cada mes y como escala el periodo transitorio de cuotas patronales.</div>",
+        "<div class='section-intro'>Aquí se muestra quién aporta, cuánto entra cada mes a la AFORE y cómo cambia la cuota patronal durante el periodo transitorio.</div>",
         unsafe_allow_html=True,
     )
     st.subheader(f"Desglose de Aportaciones — {ANIO_HOY}")
@@ -1667,7 +1682,7 @@ with tab2:
 #  TAB 3: PROYECCIÓN SALDO 
 with tab3:
     st.markdown(
-        "<div class='section-intro'>La trayectoria anual ayuda a distinguir cuanto proviene de aportaciones, cuanto del rendimiento y como evoluciona el SBC en el tiempo.</div>",
+        "<div class='section-intro'>La trayectoria anual ayuda a separar lo que viene de aportaciones, rendimiento y crecimiento del SBC.</div>",
         unsafe_allow_html=True,
     )
     st.subheader("Proyección del Saldo AFORE año a año")
@@ -1733,7 +1748,7 @@ with tab3:
 #  TAB 4: PENSIÓN 
 with tab4:
     st.markdown(
-        "<div class='section-intro'>Esta vista separa la lectura actuarial en UDIs del referente nominal con PMG para que podamos comparar metodología, requisitos y brechas de financiamiento.</div>",
+        "<div class='section-intro'>Esta vista separa el cálculo actuarial en UDIs de la referencia nominal con PMG para comparar requisitos y brechas de financiamiento.</div>",
         unsafe_allow_html=True,
     )
     st.subheader("Cálculo de Pensión")
@@ -1744,7 +1759,7 @@ with tab4:
 
     st.markdown("###  Método Actuarial CUS")
     st.caption(
-        "Fórmula bimestral en UDIs con parámetros CONSAR/CUS. ")
+        "Fórmula bimestral en UDIs con parámetros CONSAR/CUS.")
     c_cus1, c_cus2, c_cus3 = st.columns(3)
     with c_cus1:
         label_estado = "casado/a" if res_pension_excel["casado"] else "soltero/a"
@@ -1841,20 +1856,20 @@ with tab4:
             banner_estado(
                 "info",
                 "PMG no aplicable",
-                pmg.get("razon_no_aplica", "no cumple requisitos"),
+                pmg.get("razon_no_aplica", "No cumple los requisitos."),
             )
 
     if res_pension["deficit_saldo"] > 0:
         banner_estado(
             "warn",
-            "Existe una brecha para financiar la PMG",
-            f"El Estado aportaría ~${res_pension['deficit_saldo']:,.0f} adicionales. Para autofinanciar la PMG se requeriría un saldo de ${res_pension['saldo_requerido_pmg']:,.0f}.",
+            "Hay una brecha para financiar la PMG",
+            f"El Estado aportaría alrededor de ${res_pension['deficit_saldo']:,.0f}. Para financiar la PMG con recursos propios haría falta un saldo de ${res_pension['saldo_requerido_pmg']:,.0f}.",
         )
 
     st.divider()
     st.subheader(" Calculadora de Meta de Pensión")
     st.caption(
-        "¿Cuánto necesitas aportar voluntariamente cada mes para alcanzar " "una tasa de reemplazo objetivo (pensión / último salario)?" )
+        "¿Cuánto tendrías que aportar cada mes para llegar a una tasa de reemplazo objetivo?" )
 
     col_meta1, col_meta2 = st.columns([1, 2])
     with col_meta1:
@@ -1951,7 +1966,7 @@ with tab4:
 #  TAB 5: ESCENARIOS 
 with tab5:
     st.markdown(
-        "<div class='section-intro'>Los tres casos muestran la sensibilidad del retiro frente a cambios en rendimiento y crecimiento salarial, para leer dispersion y no solo el caso base.</div>",
+        "<div class='section-intro'>Los tres escenarios ayudan a ver cómo cambia el retiro cuando varían el rendimiento y el crecimiento salarial.</div>",
         unsafe_allow_html=True,
     )
     st.subheader("Análisis de Escenarios")
@@ -1988,7 +2003,7 @@ with tab5:
     banner_estado(
         "info",
         f"Escenarios expresados en pesos de {ANIO_HOY}",
-        "Comparar los tres casos en terminos reales hace visible cuanto cambia el resultado por supuestos de rendimiento y trayectoria salarial.",
+        "Comparar los tres escenarios en pesos de hoy ayuda a ver cuánto cambia el resultado según el rendimiento y la trayectoria salarial.",
     )
 
     c_e1, c_e2, c_e3 = st.columns(3)
