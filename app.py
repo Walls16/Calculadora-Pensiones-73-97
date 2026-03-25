@@ -91,7 +91,8 @@ st.markdown("""
         --surface-strong: rgba(252, 252, 253, 1);
         --text: #24343A;
         --text-muted: #66767A;
-        --line: #bec9d8;
+        --line: rgba(190, 201, 216, 0.9);
+        --line-soft: rgba(190, 201, 216, 0.55);
         --primary: #1B4F72;
         --primary-soft: rgba(27, 79, 114, 0.10);
         --accent: #2ECC71;
@@ -99,8 +100,8 @@ st.markdown("""
         --danger: #E74C3C;
         --danger-soft: rgba(231, 76, 60, 0.12);
         --secondary: #3498DB;
-        --shadow: 0 14px 28px rgba(27, 79, 114, 0.06);
-        --shadow-soft: 0 6px 18px rgba(27, 79, 114, 0.05);
+        --shadow: 0 14px 30px rgba(27, 79, 114, 0.05);
+        --shadow-soft: 0 8px 22px rgba(27, 79, 114, 0.035);
         --radius-lg: 24px;
         --radius-md: 18px;
         --radius-sm: 12px;
@@ -109,10 +110,12 @@ st.markdown("""
     html, body, [class*="css"]  {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
         color: var(--text) !important;
+        color-scheme: light !important;
     }
 
     .stApp {
         background: var(--bg);
+        color-scheme: light !important;
     }
 
     .block-container {
@@ -159,7 +162,7 @@ st.markdown("""
     }
 
     div[data-testid="stSidebar"] {
-        border-right: 1px solid var(--line);
+        border-right: 1px solid var(--line-soft);
     }
 
     div[data-testid="stSidebarContent"] {
@@ -182,8 +185,10 @@ st.markdown("""
     div[data-testid="stSidebarContent"] [data-baseweb="select"] > div,
     div[data-testid="stSidebarContent"] [data-baseweb="popover"] {
         background: #fcfcfd !important;
-        border: 1px solid var(--line) !important;
-        border-radius: 12px !important;
+        border: 1px solid var(--line-soft) !important;
+        border-radius: 14px !important;
+        overflow: hidden !important;
+        background-clip: padding-box !important;
         color: var(--text) !important;
     }
 
@@ -211,30 +216,35 @@ st.markdown("""
     [data-baseweb="select"] > div,
     textarea {
         background: #fcfcfd !important;
-        border-color: var(--line) !important;
+        border-color: var(--line-soft) !important;
+        border-radius: 14px !important;
+        overflow: hidden !important;
+        background-clip: padding-box !important;
     }
 
     div[data-testid="stSidebarContent"] [data-baseweb="input"] > div,
     div[data-testid="stSidebarContent"] [data-baseweb="base-input"] {
         background: #fcfcfd !important;
         color: var(--text) !important;
+        border-radius: inherit !important;
     }
 
     div[data-testid="stSidebarContent"] button,
     div[data-testid="stSidebarContent"] [data-baseweb="input"] button,
     div[data-testid="stSidebarContent"] [data-baseweb="select"] button {
-        background: #fcfcfd !important;
+        background: transparent !important;
         color: var(--text) !important;
-        border-color: var(--line) !important;
+        border: none !important;
+        border-radius: 0 !important;
         box-shadow: none !important;
     }
 
     div[data-testid="stSidebarContent"] [data-testid="stNumberInput"] button,
     div[data-testid="stSidebarContent"] [data-testid="stDateInput"] button,
     div[data-testid="stSidebarContent"] [data-testid="stSelectbox"] button {
-        background: #fcfcfd !important;
+        background: transparent !important;
         color: var(--text) !important;
-        border: 1px solid var(--line) !important;
+        border: none !important;
     }
 
     div[data-testid="stSidebarContent"] svg {
@@ -254,7 +264,20 @@ st.markdown("""
     div[data-testid="stSelectbox"] > div {
         background: #fcfcfd !important;
         color: var(--text) !important;
-        border-color: var(--line) !important;
+        border-color: var(--line-soft) !important;
+        border-radius: 14px !important;
+        overflow: hidden !important;
+        background-clip: padding-box !important;
+        box-shadow: none !important;
+    }
+
+    div[data-testid="stTextInput"],
+    div[data-testid="stNumberInput"],
+    div[data-testid="stDateInput"],
+    div[data-testid="stSelectbox"],
+    div[data-testid="stCheckbox"] {
+        background: transparent !important;
+        border: none !important;
         box-shadow: none !important;
     }
 
@@ -283,9 +306,10 @@ st.markdown("""
     div[data-testid="stDateInput"] button,
     div[data-testid="stSelectbox"] button,
     div[data-testid="stTextInput"] button {
-        background: #fcfcfd !important;
+        background: transparent !important;
         color: var(--text) !important;
-        border: 1px solid var(--line) !important;
+        border: none !important;
+        border-radius: 0 !important;
         box-shadow: none !important;
     }
 
@@ -299,55 +323,72 @@ st.markdown("""
 
     .stButton > button {
         border-radius: 999px;
-        border: 1px solid rgba(27, 79, 114, 0.10);
-        background: var(--primary);
-        color: white;
+        border: 1px solid var(--line-soft);
+        background: rgba(252, 252, 253, 0.96);
+        color: var(--text);
         font-weight: 700;
         letter-spacing: 0.01em;
         min-height: 2.8rem;
-        box-shadow: var(--shadow-soft);
-    }
-
-    .stButton > button:hover {
-        border-color: rgba(27, 79, 114, 0.16);
-        background: #173F5A;
-        color: white;
-    }
-
-    .stButton > button[kind="secondary"] {
-        background: rgba(255,255,255,0.86);
-        color: var(--primary);
-        border: 1px solid rgba(27,79,114,0.14);
         box-shadow: none;
     }
 
+    .stButton > button:hover {
+        border-color: rgba(27, 79, 114, 0.18);
+        background: #ffffff;
+        color: var(--text);
+    }
+
+    .stButton > button[kind="primary"] {
+        background: var(--primary);
+        color: #ffffff;
+        border-color: rgba(27, 79, 114, 0.18);
+        box-shadow: var(--shadow-soft);
+    }
+
+    .stButton > button[kind="primary"]:hover {
+        background: #173F5A;
+        color: #ffffff;
+        border-color: rgba(27, 79, 114, 0.24);
+    }
+
     .stTabs [data-baseweb="tab-list"] {
-        gap: 0.5rem;
-        background: rgba(223, 232, 233, 0.72);
-        padding: 0.4rem;
-        border-radius: 16px;
-        border: 1px solid var(--line);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
-        margin-bottom: 1.5rem;
+        gap: 0.35rem;
+        background: transparent;
+        padding: 0 0 0.35rem 0;
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid var(--line-soft);
+        box-shadow: none;
+        margin-bottom: 1.35rem;
     }
 
     .stTabs [data-baseweb="tab"] {
-        height: 2.8rem;
-        padding: 0.55rem 1rem;
-        border-radius: 12px;
+        height: 2.65rem;
+        padding: 0.4rem 0.8rem 0.55rem 0.8rem;
+        border-radius: 8px 8px 0 0;
+        background: transparent !important;
         color: var(--text-muted);
         font-weight: 600;
+        border: none !important;
+        box-shadow: none !important;
+        transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .stTabs [data-baseweb="tab"]:hover {
+        color: var(--text) !important;
+        background: rgba(255,255,255,0.82) !important;
+        transform: translateY(-1px);
     }
 
     .stTabs [aria-selected="true"] {
-        background: rgba(27, 79, 114, 0.10) !important;
+        background: transparent !important;
         color: var(--primary) !important;
-        box-shadow: inset 0 0 0 1px rgba(27, 79, 114, 0.10);
+        box-shadow: inset 0 -2px 0 var(--primary) !important;
     }
 
     div[data-testid="stMetric"] {
         background: var(--surface-strong);
-        border: 1px solid var(--line);
+        border: 1px solid var(--line-soft);
         border-radius: var(--radius-md);
         padding: 1rem 1rem 0.85rem 1rem;
         box-shadow: var(--shadow-soft);
@@ -374,13 +415,13 @@ st.markdown("""
 
     div[data-testid="stAlert"] {
         border-radius: var(--radius-md);
-        border: 1px solid var(--line);
+        border: 1px solid var(--line-soft);
         box-shadow: var(--shadow-soft);
     }
 
     div[data-testid="stTable"] {
         background: var(--surface);
-        border: 1px solid var(--line);
+        border: 1px solid var(--line-soft);
         border-radius: var(--radius-md);
         overflow: hidden;
         box-shadow: var(--shadow-soft);
@@ -411,7 +452,7 @@ st.markdown("""
     div[data-testid="stTable"] th {
         background: #eef3f8 !important;
         color: var(--text) !important;
-        border-bottom: 1px solid var(--line) !important;
+        border-bottom: 1px solid var(--line-soft) !important;
     }
 
     div[data-testid="stTable"] td {
@@ -419,16 +460,28 @@ st.markdown("""
     }
 
     div[data-testid="stExpander"] {
-        border: 1px solid var(--line);
+        border: 1px solid var(--line-soft);
         border-radius: var(--radius-md);
         background: rgba(255,255,255,0.75);
         box-shadow: var(--shadow-soft);
     }
 
+    div[data-testid="stExpander"] details,
+    div[data-testid="stExpander"] summary {
+        background: #fcfcfd !important;
+        color: var(--text) !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    div[data-testid="stExpander"] summary:hover {
+        background: #ffffff !important;
+    }
+
     .stPlotlyChart,
     [data-testid="stPlotlyChart"] {
         background: #fcfcfd;
-        border: 1px solid var(--line);
+        border: 1px solid var(--line-soft);
         border-radius: 20px;
         padding: 0.35rem 0.45rem;
         box-shadow: var(--shadow-soft);
@@ -445,11 +498,11 @@ st.markdown("""
         animation: none !important;
         transition: none !important;
         box-shadow: var(--shadow-soft) !important;
-        border-color: var(--line) !important;
+        border-color: var(--line-soft) !important;
     }
 
     .hero-shell {
-        border: 1px solid var(--line);
+        border: 1px solid var(--line-soft);
         border-radius: 22px;
         padding: 1.2rem 1.25rem;
         background: #fcfcfd;
@@ -499,7 +552,7 @@ st.markdown("""
         padding: 0.48rem 0.8rem;
         border-radius: 999px;
         background: rgba(255,255,255,0.74);
-        border: 1px solid var(--line);
+        border: 1px solid var(--line-soft);
         color: var(--text);
         font-size: 0.85rem;
         font-weight: 600;
@@ -515,7 +568,7 @@ st.markdown("""
 
     .summary-card, .summary-side {
         border-radius: 22px;
-        border: 1px solid var(--line);
+        border: 1px solid var(--line-soft);
         box-shadow: var(--shadow-soft);
     }
 
@@ -576,7 +629,7 @@ st.markdown("""
 
     .status-banner {
         border-radius: 18px;
-        border: 1px solid var(--line);
+        border: 1px solid var(--line-soft);
         padding: 1rem 1.1rem;
         margin: 0 0 1rem 0;
         box-shadow: var(--shadow-soft);
@@ -617,7 +670,7 @@ st.markdown("""
 
     .scenario-card {
         border-radius: var(--radius-md);
-        border: 1px solid var(--line);
+        border: 1px solid var(--line-soft);
         padding: 1rem;
         background: #fcfcfd;
         box-shadow: var(--shadow-soft);
@@ -635,7 +688,7 @@ st.markdown("""
     .info-tile,
     .report-shell,
     .sidebar-panel {
-        border: 1px solid var(--line);
+        border: 1px solid var(--line-soft);
         border-radius: 22px;
         box-shadow: var(--shadow-soft);
     }
@@ -688,7 +741,7 @@ st.markdown("""
         justify-content: center;
         align-items: flex-start;
         gap: 1rem;
-        border: 1px solid var(--line);
+        border: 1px solid var(--line-soft);
         border-radius: 18px;
         background: #fcfcfd;
         padding: 1rem 1.05rem;
@@ -728,6 +781,8 @@ st.markdown("""
     div[data-testid="stExpander"] {
         animation: uiFadeUp 0.36s ease both;
         transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+        overflow: hidden;
+        background-clip: padding-box;
     }
 
     .hero-shell:hover,
@@ -737,9 +792,9 @@ st.markdown("""
     .report-shell:hover,
     div[data-testid="stMetric"]:hover,
     div[data-testid="stExpander"]:hover {
-        transform: translateY(-2px) scale(1.04);
-        box-shadow: 0 14px 30px rgba(27, 79, 114, 0.20);
-        border-color: rgba(27, 79, 114, 0.22);
+        transform: translateY(-2px) scale(1.215);
+        box-shadow: 0 16px 32px rgba(27, 79, 114, 0.18);
+        border-color: rgba(27, 79, 114, 0.16);
     }
 
     .stButton > button,
@@ -765,20 +820,20 @@ st.markdown("""
     div[data-testid="stSidebarContent"] .stSelectbox,
     div[data-testid="stSidebarContent"] .stCheckbox,
     div[data-testid="stSidebarContent"] div[data-testid="stExpander"] {
-        background: #fcfcfd;
-        border: 1px solid var(--line);
+        background: transparent;
+        border: none;
         border-radius: 16px;
-        padding: 0.55rem 0.65rem;
-        box-shadow: var(--shadow-soft);
+        padding: 0.05rem 0;
+        box-shadow: none;
         margin-bottom: 0.55rem;
     }
 
     div[data-testid="stCheckbox"] label[data-baseweb="checkbox"] {
         background: #fcfcfd !important;
-        border: 1px solid var(--line) !important;
+        border: 1px solid var(--line-soft) !important;
         border-radius: 16px !important;
         padding: 0.55rem 0.7rem !important;
-        box-shadow: var(--shadow-soft);
+        box-shadow: none;
         width: 100%;
     }
 
@@ -1039,7 +1094,7 @@ def render_sidebar_recovery_control() -> None:
               top: 0.9rem;
               left: 0.9rem;
               z-index: 99999;
-              display: inline-flex;
+              display: none;
               align-items: center;
               gap: 0.45rem;
               padding: 0.68rem 1rem;
@@ -1154,6 +1209,79 @@ def render_sidebar_recovery_control() -> None:
         window.parent.__sidebarRecoveryInterval = setInterval(syncVisibility, 500);
         window.addEventListener("resize", syncVisibility);
         doc.addEventListener("click", () => setTimeout(syncVisibility, 120));
+        </script>
+        """,
+        height=0,
+    )
+
+
+def render_force_sidebar_visible() -> None:
+    components.html(
+        """
+        <script>
+        const doc = window.parent.document;
+        const getSidebar = () =>
+          doc.querySelector("section[data-testid='stSidebar'], div[data-testid='stSidebar']");
+
+        const getCollapseToggle = () => {
+          const candidates = Array.from(doc.querySelectorAll("button, [role='button']"));
+          return candidates.find((element) => {
+            const text = [
+              element.getAttribute("aria-label") || "",
+              element.getAttribute("title") || "",
+              element.textContent || "",
+            ].join(" ").toLowerCase();
+            return (
+              text.includes("sidebar") ||
+              text.includes("barra lateral") ||
+              text.includes("collapse") ||
+              text.includes("expand")
+            );
+          });
+        };
+
+        const openSidebar = () => {
+          const sidebar = getSidebar();
+          const rect = sidebar ? sidebar.getBoundingClientRect() : { width: 0, right: 0, left: 0 };
+          const style = sidebar ? window.parent.getComputedStyle(sidebar) : null;
+          const hidden = !sidebar ||
+            style.display === "none" ||
+            style.visibility === "hidden" ||
+            Number(style.opacity || 1) === 0 ||
+            rect.width < 120 ||
+            rect.right < 40 ||
+            rect.left < -200;
+
+          if (hidden) {
+            const toggle = getCollapseToggle();
+            if (toggle) {
+              toggle.click();
+            }
+          }
+
+          const liveSidebar = getSidebar();
+          if (liveSidebar) {
+            liveSidebar.style.display = "block";
+            liveSidebar.style.visibility = "visible";
+            liveSidebar.style.opacity = "1";
+            liveSidebar.style.transform = "translateX(0)";
+            liveSidebar.style.minWidth = "24rem";
+            liveSidebar.style.width = "24rem";
+            liveSidebar.style.maxWidth = "24rem";
+            liveSidebar.style.flex = "0 0 24rem";
+          }
+
+          const sidebarContent = doc.querySelector("div[data-testid='stSidebarContent']");
+          if (sidebarContent) {
+            sidebarContent.style.display = "block";
+            sidebarContent.style.visibility = "visible";
+            sidebarContent.style.opacity = "1";
+          }
+        };
+
+        setTimeout(openSidebar, 0);
+        setTimeout(openSidebar, 180);
+        setTimeout(openSidebar, 450);
         </script>
         """,
         height=0,
@@ -1290,6 +1418,8 @@ def actualizar_fuentes_externas(token_banxico: str) -> tuple[list[str], list[str
 
 if "app_iniciada" not in st.session_state:
     st.session_state.app_iniciada = False
+if "forzar_sidebar_visible" not in st.session_state:
+    st.session_state.forzar_sidebar_visible = False
 
 if not st.session_state.app_iniciada:
 
@@ -1385,6 +1515,7 @@ if not st.session_state.app_iniciada:
     with col_btn:
         if st.button("Iniciar calculadora", type="primary", use_container_width=True):
             st.session_state.app_iniciada = True
+            st.session_state.forzar_sidebar_visible = True
             st.rerun()
 
     st.markdown(
@@ -1400,6 +1531,9 @@ if not st.session_state.app_iniciada:
     st.stop()
 
 render_sidebar_recovery_control()
+if st.session_state.forzar_sidebar_visible:
+    render_force_sidebar_visible()
+    st.session_state.forzar_sidebar_visible = False
 
 # ═══════════════════════════════════════════════════════════════════════════
 # SIDEBAR — DATOS DEL TRABAJADOR
@@ -1474,6 +1608,11 @@ with st.sidebar:
         key="edad_retiro_deseada",
         number_format="%d",
     )
+    if edad_retiro < 60:
+        st.warning(
+            "Advertencia: una edad de retiro menor a 60 años puede no ser compatible con los supuestos habituales del cálculo.",
+            icon="⚠️",
+        )
     anio_retiro = fecha_nacimiento.year + edad_retiro
     st.caption(f"Año estimado de retiro: **{anio_retiro}**")
 
@@ -1582,7 +1721,6 @@ with st.sidebar:
             actualizar_datos = st.button(
                 "Actualizar ahora",
                 use_container_width=True,
-                type="primary",
             )
         with col_fuentes_2:
             if st.button("Cerrar", use_container_width=True):
